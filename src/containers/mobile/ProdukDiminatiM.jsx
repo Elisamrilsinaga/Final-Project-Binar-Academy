@@ -21,7 +21,7 @@ const ProdukDiminatiM = ({ productrans }) => {
       <Box>
         <Box
           component={"img"}
-          src={`https://dev-second-hand.herokuapp.com/${productrans.product.product_pictures[0].picture}`}
+          src={`https://scnd-appr-beta.herokuapp.com/${productrans.product.product_pictures[0].picture}`}
           image
           width={"100%"}
           height={"5rem"}

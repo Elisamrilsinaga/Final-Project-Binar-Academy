@@ -36,7 +36,7 @@ const ImgDropProfile = ({ data, setData }) => {
             < Box
                 component="img"
                 alt="camera"
-                src={path ? `https://dev-second-hand.herokuapp.com/${path}` : data.profile_picture ? `https://dev-second-hand.herokuapp.com/${data.profile_picture}` : `/images/cameraInfo.png`}
+                src={path ? `https://scnd-appr-beta.herokuapp.com/${path}` : data.profile_picture ? `https://scnd-appr-beta.herokuapp.com/${data.profile_picture}` : `/images/cameraInfo.png`}
                 setData={path ? path : data.profile_picture ? data.profile_picture : `/images/cameraInfo.png`}
                 sx={{
                     width: '100%',

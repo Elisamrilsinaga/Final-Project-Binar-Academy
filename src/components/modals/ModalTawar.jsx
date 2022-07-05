@@ -67,7 +67,7 @@ const ModalTawar = ({ setModal, setSubmit }) => {
               display="flex"
               component="img"
               alt="camera"
-              src={`https://dev-second-hand.herokuapp.com/${detail.data?.product_pictures[0].picture}`}
+              src={`https://scnd-appr-beta.herokuapp.com/${detail.data?.product_pictures[0].picture}`}
               borderRadius="16px"
               justifyContent="center"
               alignItems="center"

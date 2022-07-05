@@ -16,6 +16,7 @@ const ButtonJualHome = () => {
         >
             <Link to="/daftar-jual/add" style={{ textDecoration: 'none' }}>
                 <Button
+                     
                     variant="contained"
                     sx={{
                         backgroundColor: "#7126B5",

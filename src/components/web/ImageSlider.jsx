@@ -37,7 +37,7 @@ const ImageSlider = () => {
         return (
           <SwiperSlide key={image.id}>
             <img
-              src={`https://dev-second-hand.herokuapp.com/${image.picture}`}
+              src={`https://scnd-appr-beta.herokuapp.com/${image.picture}`}
               alt="gambar product"
             />
           </SwiperSlide>

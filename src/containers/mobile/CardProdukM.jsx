@@ -20,7 +20,7 @@ const CardProdukM = ({ product }) => {
       <Box>
         <Box
           component={"img"}
-          src={`https://dev-second-hand.herokuapp.com/${product.product_pictures[0].picture}`}
+          src={`https://scnd-appr-beta.herokuapp.com/${product.product_pictures[0].picture}`}
           width={"100%"}
           height={"5rem"}
           borderRadius={2}
