@@ -24,7 +24,7 @@ const Header = ({ active, title, }) => {
                     <Box display='flex' alignItems='center' width="44rem">
                         <Link href="/">
                             <Box component='img'
-                                src='/images/logo.png'
+                                src='/images/Logo.png'
                                 alt='logo'
                                 mr={2}
                             />
