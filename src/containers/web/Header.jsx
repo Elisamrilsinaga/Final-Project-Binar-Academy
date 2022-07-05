@@ -25,7 +25,7 @@ const Header = ({ active, title, }) => {
                         <Link href="/">
                             <Box component='img'
                                 src='/images/Logo.png'
-                                alt='logo'
+                                alt='Logo'
                                 mr={2}
                             />
                         </Link>
