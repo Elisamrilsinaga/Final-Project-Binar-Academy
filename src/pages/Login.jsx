@@ -7,11 +7,11 @@ import LoginField from "../components/fields/LoginField";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-    const isMobile = useMediaQuery("(max-width:425px)");
+    const isMobile = useMediaQuery("(max-width:500px)");
     return (
         <>
             {isMobile ? (
-                <Box p={2}>
+                <Box p={2} >
                     <Link to="/">
                         <KeyboardBackspaceIcon />
                     </Link>
@@ -25,6 +25,7 @@ const Login = () => {
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
+                            width: "100%",
                         }}>
                         <LoginField />
                     </Grid>

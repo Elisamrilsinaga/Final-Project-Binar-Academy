@@ -18,7 +18,7 @@ const LoginField = () => {
   const status = useSelector((state) => state.auth.status);
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-
+  console.log(status)
   const handlelogin = async (e) => {
     e.preventDefault();
     if (email === "" || password === "") {

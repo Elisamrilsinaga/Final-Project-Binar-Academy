@@ -24,9 +24,8 @@ const DetailProduk = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.product.productsDetail);
-  const seller = useSelector((state) => state.product.user.id);
   const buyer = localStorage.getItem("uid", true);
-
+  
   useEffect(() => {
     dispatch(fetchProductItem(id));
   }, [dispatch, id]);
@@ -68,7 +67,7 @@ const DetailProduk = () => {
               left: "5%",
             }}
           >
-            {seller == buyer ? (
+            {detail.data && detail.data.User.id == buyer ? (
               <>
                 <ButtonClick title="Terbitkan" primary />
                 <ButtonClick title="Edit" />
@@ -98,9 +97,9 @@ const DetailProduk = () => {
             }}
           >
             <ContainersBox
-              data={<InfoProdukDetail key={detail.id} detail={detail} />}
+              data={<InfoProdukDetail key={detail.data && detail.data.id} detail={detail} />}
             />
-            <ContainersBox data={<InfoPenjual />} />
+            <ContainersBox data={<InfoPenjual penjual={detail.data && detail.data.User} />} />
             <ContainersBox
               data={
                 <>
@@ -108,12 +107,12 @@ const DetailProduk = () => {
                     Deskripsi{" "}
                   </Typography>
                   <Typography variant="caption" color="#8A8A8A">
-                    {detail.data?.description}
+                    {detail.data?.product_desc}
                   </Typography>
                   <br />
                   <br />
                   <Typography variant="caption" color="#8A8A8A">
-                    {detail.data?.description}
+                    {detail.data?.product_desc}
                   </Typography>
                 </>
               }
@@ -144,12 +143,12 @@ const DetailProduk = () => {
                       Deskripsi{" "}
                     </Typography>
                     <Typography variant="caption" color="#8A8A8A">
-                      {detail.data?.description}
+                      {detail.data?.product_desc}
                     </Typography>
                     <br />
                     <br />
                     <Typography variant="caption" color="#8A8A8A">
-                      {detail.data?.description}
+                      {detail.data?.product_desc}
                     </Typography>
                   </>
                 }
@@ -159,8 +158,8 @@ const DetailProduk = () => {
               <ContainersBox
                 data={
                   <>
-                    <InfoProdukDetail key={detail.id} detail={detail} />
-                    {seller == buyer ? (
+                    <InfoProdukDetail key={detail.data && detail.data.id} detail={detail} />
+                    {detail.data && detail.data.User.id == buyer ? (
                       <>
                         <ButtonClick title="Terbitkan" primary />
                         <ButtonClick title="Edit" />
@@ -184,7 +183,7 @@ const DetailProduk = () => {
                   </>
                 }
               />
-              <ContainersBox data={<InfoPenjual />} />
+              <ContainersBox data={<InfoPenjual penjual={detail.data && detail.data.User} />} />
             </Grid>
           </Grid>
         </>

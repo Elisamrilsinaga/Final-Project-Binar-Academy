@@ -11,12 +11,12 @@ const InfoProfileField = () => {
 
     const kota = useSelector((state) => state.city.city);
     const path = useSelector((state) => state.profile.pathImg);
-
-    const [fullname, setfullname] = React.useState(profile.fullname);
-    const [city_id, setcity_id] = React.useState(profile.city.city);
-    const [number_phone, setnumber_phone] = React.useState(profile.number_phone);
-    const [address, setAddress] = React.useState(profile.address);
-    const [profile_picture, setProfilePicture] = React.useState(profile.profile_picture);
+    console.log(profile.city)
+    const [fullname, setfullname] = React.useState(profile.fullname || "");
+    const [city_id, setcity_id] = React.useState(profile.city|| "");
+    const [number_phone, setnumber_phone] = React.useState(profile.number_phone|| "");
+    const [address, setAddress] = React.useState(profile.address|| "");
+    const [profile_picture, setProfilePicture] = React.useState(profile.profile_picture|| "");
 
     const dispatch = useDispatch()
 
@@ -38,7 +38,7 @@ const InfoProfileField = () => {
             <ImgDropProfile data={profile} setData={setProfilePicture} />
             <FormInput label="Nama" value={fullname} setValue={setfullname} placeholder='Nama' type={'text'} />
 
-            <FormInput label="Kota" value={city_id} setValue={setcity_id} placeholder='Pilih Kota' type={'select'} select={kota} defaultValue={profile.city.city} />
+            <FormInput label="Kota" value={city_id} setValue={setcity_id} placeholder='Pilih Kota' type={'select'} select={kota} defaultValue={profile.city} />
 
             <FormInput label="Alamat" value={address} setValue={setAddress} placeholder='Contoh: Jalan Ikan Hiu 33' type={'textarea'} defaultValue={profile.address} />
 

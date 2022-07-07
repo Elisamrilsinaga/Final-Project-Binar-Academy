@@ -15,9 +15,9 @@ import { useParams } from "react-router-dom";
 
 const ImageSlider = () => {
   const { id } = useParams();
-  const img = useSelector((state) => state.product.img);
+  const img = useSelector((state) => state.product.productsDetail);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     dispatch(fetchProductItem(id));
   }, [dispatch, id]);
@@ -33,16 +33,16 @@ const ImageSlider = () => {
       modules={[EffectFade, Navigation, Pagination]}
       className="mySwiper"
     >
-      {img.map((image) => {
-        return (
-          <SwiperSlide key={image.id}>
+      {/* {img && img.map((image) => {
+        return ( */}
+          <SwiperSlide key={img.data && img.data.id }>
             <img
-              src={`https://scnd-appr-beta.herokuapp.com/${image.picture}`}
+              src={img.data && img.data.product_image}
               alt="gambar product"
             />
           </SwiperSlide>
-        );
-      })}
+        {/* );
+      })} */}
     </Swiper>
   );
 };

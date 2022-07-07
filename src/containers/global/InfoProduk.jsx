@@ -16,10 +16,10 @@ const InfoProduk = ({ product }) => {
             fontSize={".7rem"}
             mb={1}
           >
-            {product.category.category}
+            {product.product_category}
           </Typography>
           <Typography variant="subtitle2" fontSize={".8rem"}>
-            Rp. {product.price.toLocaleString("id-ID")}
+            Rp. {product.product_price.toLocaleString("id-ID")}
           </Typography>
         </>
       ) : (
@@ -28,10 +28,10 @@ const InfoProduk = ({ product }) => {
             {product.product}
           </Typography>
           <Typography variant="body2" color="textSecondary" mb={1}>
-            {product.category.category}
+            {product.product_category}
           </Typography>
           <Typography variant="subtitle2">
-            Rp. {product.price.toLocaleString("id-ID")}
+            Rp. {product.product_price.toLocaleString("id-ID")}
           </Typography>
         </>
       )}

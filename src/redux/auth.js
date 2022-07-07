@@ -4,19 +4,20 @@ import apisecondhand from './apis/apisecondhand';
 export const AuthLogin = createAsyncThunk(
     'auth/AuthLogin',
     async (data) => {
-        const res = await apisecondhand.post('/login', data, {
-            H: {
-                'accept': 'application/json',
-                'Authorization': 'Bearer' + localStorage.getItem('token')
+        try{
+            const res = await apisecondhand.post('/login', data);
+            console.log(res.data)
+            if (res.data.status_login == 'Berhasil') {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('uid', res.data.user_id);
+                return res.data;
+            } else {
+                
+                throw new Error(res.data.message);
             }
-        });
-
-        if (res.data.status) {
-            localStorage.setItem('token', res.data.data.token);
-            localStorage.setItem('uid', res.data.data.user_id);
-            return res.data;
-        } else {
-            throw new Error(res.data.message);
+        }
+        catch(err) {
+            console.error(err)
         }
     }
 );
@@ -55,7 +56,9 @@ const authSlice = createSlice({
             return { ...state, loading: true }
         },
         [AuthLogin.fulfilled]: (state, action) => {
-
+            if(!action.payload)
+            return { ...state, loading: false, error: "Username atau Passsword Salah", status: false }
+            else
             return { ...state, loading: false, status: true }
         },
         [AuthLogin.rejected]: (state, action) => {

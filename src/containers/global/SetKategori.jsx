@@ -5,16 +5,16 @@ import ButtonCategory from "../../components/buttons/ButtonCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategorys } from "../../redux/category";
 
-const SetKategori = ({ product }) => {
-  const [kategory, setKategory] = React.useState();
-  const isMobile = useMediaQuery("(max-width:420px)");
+const SetKategori = ({ products,kategory, setKategory }) => {
+  
+  const isMobile = useMediaQuery("(max-width:50px)");
 
   // const handleChangestatusValue = (event) => {
   //   setKategory(event.target.value);
   // };
-  // console.log(kategory);
-
-  const category = useSelector((state) => state.category.categorys);
+  console.log("prod",! products);
+  const category = products.data && [... new Set(products.data.posts.map(x => x.product_category))]
+  // const category = useSelector((state) => state.category.categorys);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +31,6 @@ const SetKategori = ({ product }) => {
 
   return (
     <Box
-      keys={category.id}
       sx={{
         display: "flex",
         overflow: isMobile ? "scroll" : "none",
@@ -45,11 +44,11 @@ const SetKategori = ({ product }) => {
         value={kategory}
         setValue={setKategory}
       />
-      {category.data &&
-        category.data.map((category) => (
+      {category &&
+        category.map((category) => (
           <ButtonCategory
-            key={category.id}
-            title={category.category}
+            key={category}
+            title={category}
             icon={<SearchIcon sx={{ fontSize: "1.2rem" }} />}
             value={kategory}
             setValue={setKategory}

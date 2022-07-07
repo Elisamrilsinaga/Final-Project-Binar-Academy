@@ -4,17 +4,27 @@ import apisecondhand from "./apis/apisecondhand";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await apisecondhand.get("/product/public?category=");
-    return response.data;
+    try{
+      const response = await apisecondhand.get("/home",{
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        }
+      });
+      return response.data;
+    }
+    catch(err){
+      console.log(err)
+      return {}
+    }
   }
 );
 
 export const fetchProductItem = createAsyncThunk(
   "product/fetchProductItem",
   async (id) => {
-    const response = await apisecondhand.get(`/product/${id}/public`, {
+    const response = await apisecondhand.get(`/product/${id}`, {
       headers: {
-        uid: localStorage.getItem("uid"),
+        'Authorization': 'Bearer ' + localStorage.getItem("token"),
       },
     });
     return response.data;

@@ -3,13 +3,14 @@ import apisecondhand from './apis/apisecondhand';
 
 export const GetProfile = createAsyncThunk(
     'profile/GetProfile',
-    async (data) => {
-        const res = await apisecondhand.get('/biodata/' + data, {
+    async () => {
+        const res = await apisecondhand.get('/profile', {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
+        
         return res.data;
     }
 );

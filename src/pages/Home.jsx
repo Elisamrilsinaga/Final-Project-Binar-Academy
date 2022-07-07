@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { Box, useMediaQuery, Grid, Typography } from "@mui/material";
 import CardProduk from "../containers/web/CardProduk";
 import Carousel from "../containers/web/Carousel";
@@ -11,10 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/product";
 
 const Home = () => {
+  const [kategory, setKategory] = useState();
   const products = useSelector((state) => state.product.products);
+  console.log(products)
   const dispatch = useDispatch();
 
-  const isMobile = useMediaQuery("(max-width:425px)");
+  const isMobile = useMediaQuery("(max-width:500px)");
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -23,7 +25,7 @@ const Home = () => {
     <>
       {isMobile ? (
         <Box>
-          <HomeUpM />
+          <HomeUpM products={products} kategory={kategory} setKategory={setKategory} />
           <ButtonJualHome />
           <Box
             p={2}
@@ -33,8 +35,8 @@ const Home = () => {
             gap={1.5}
             justifyContent="space-between"
           >
-            {products.data &&
-              products.data.map((product) => (
+            {products.data != undefined &&
+              products.data.posts.map((product) => (product.product_category == kategory || kategory == 'Semua' || !kategory) &&(
                 <CardProdukM key={product.id} product={product} />
               ))}
           </Box>
@@ -47,22 +49,22 @@ const Home = () => {
             <Typography fontWeight={"700"} mb={2} textTransform="none">
               Telusuri Kategori
             </Typography>
-            <SetKategori key={products.id} products={products} />
+            <SetKategori products={products} kategory={kategory} setKategory={setKategory} />
           </Box>
 
-          <Box mx={"8rem"} mt={4} display="flex">
+          <Box mx={"8rem"} mt={4} display="flex" sx={{ width: "inherit" }}>
             <ButtonJualHome />
             <Box display="flex" flexWrap="wrap" sx={{ width: "100%" }}>
-              <Box display="flex" alignItems="center" flexWrap="wrap">
-                <Grid container justify="center" gap={2}>
-                  {products.data &&
-                    products.data.map((product) => (
+              <Box display="flex" alignItems="center" flexWrap="wrap" sx={{ width: "100%" }}>
+                <Grid container justify="center" gap={2} >
+                  {products.data != undefined &&
+                    products.data.posts.map((product) => (product.product_category == kategory || kategory == 'Semua' || !kategory) && (
                       <Grid
                         item
                         lg={1.8}
                         mb={2}
                         key={product.id}
-                        sx={{ display: "flex" }}
+                        sx={{ display: "flex",width:"100%" }}
                       >
                         <CardProduk product={product} />
                       </Grid>

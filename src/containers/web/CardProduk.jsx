@@ -23,7 +23,7 @@ const CardProduk = ({ product }) => {
       <Box>
         <Box
           component={"img"}
-          src={`https://scnd-appr-beta.herokuapp.com/${product.product_pictures[0].picture}`}
+          src={ product.product_image}
           image
           width={"100%"}
           height={"10rem"}

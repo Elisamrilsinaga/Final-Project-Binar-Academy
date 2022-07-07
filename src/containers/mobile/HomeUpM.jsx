@@ -6,7 +6,7 @@ import SetKategori from "../global/SetKategori";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchFieldM from "../../components/fields/SearchFieldM";
 
-const HomeUpM = () => {
+const HomeUpM = ({ products,kategory, setKategory }) => {
   const [open, setOpen] = React.useState(false);
   return (
     <Box>
@@ -41,7 +41,7 @@ const HomeUpM = () => {
         <Typography fontSize={14} mx={2} my={1}>
           Telusuri Kategori
         </Typography>
-        <SetKategori />
+        <SetKategori products={products} kategory={kategory} setKategory={setKategory}/>
       </Box>
     </Box>
   );
