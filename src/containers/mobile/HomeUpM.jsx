@@ -38,10 +38,12 @@ const HomeUpM = ({ products,kategory, setKategory }) => {
           <SearchFieldM />
         </Box>
         <HeroM />
-        <Typography fontSize={14} mx={2} my={1}>
-          Telusuri Kategori
-        </Typography>
-        <SetKategori products={products} kategory={kategory} setKategory={setKategory}/>
+        <Box mx={4} mt={4}>
+          <Typography fontSize={14}  my={1}>
+            Telusuri Kategori
+          </Typography>
+          <SetKategori products={products} kategory={kategory} setKategory={setKategory}/>
+        </Box>
       </Box>
     </Box>
   );

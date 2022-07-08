@@ -17,10 +17,9 @@ export const GetProfile = createAsyncThunk(
 
 export const UpdateProfile = createAsyncThunk(
     'profile/UpdateProfile',
-    async ({ uid, data }) => {
-        console.log(uid);
-        console.log(data);
-        const res = await apisecondhand.put('/biodata/' + uid, data, {
+    async ({ data }) => {
+        console.log(data)
+        const res = await apisecondhand.put('/profile', data, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),

@@ -22,41 +22,34 @@ const Home = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
   return (
-    <>
-      {isMobile ? (
-        <Box>
-          <HomeUpM products={products} kategory={kategory} setKategory={setKategory} />
-          <ButtonJualHome />
-          <Box
-            p={2}
-            display="flex"
-            alignItems="center"
-            flexWrap="wrap"
-            gap={1.5}
-            justifyContent="space-between"
-          >
-            {products.data != undefined &&
-              products.data.posts.map((product) => (product.product_category == kategory || kategory == 'Semua' || !kategory) &&(
-                <CardProdukM key={product.id} product={product} />
-              ))}
-          </Box>
-        </Box>
-      ) : (
         <>
-          <Header />
-          <Carousel />
-          <Box mx={16} mt={4}>
-            <Typography fontWeight={"700"} mb={2} textTransform="none">
-              Telusuri Kategori
-            </Typography>
-            <SetKategori products={products} kategory={kategory} setKategory={setKategory} />
-          </Box>
+          {
+            isMobile ? (<HomeUpM products={products} kategory={kategory} setKategory={setKategory}/>) : (
+              <>
+              <Header />
+              <Carousel />
+              <Box mx={16} mt={4}>
+                <Typography fontWeight={"700"} mb={2} textTransform="none">
+                  Telusuri Kategori
+                </Typography>
+                <SetKategori products={products} kategory={kategory} setKategory={setKategory} />
+              </Box>
+              </>
+            )
+          }
+          
 
-          <Box mx={"8rem"} mt={4} display="flex" sx={{ width: "inherit" }}>
-            <ButtonJualHome />
+          <Box mx={{
+            xs : 0,
+            md : "8rem"
+          }} mt={4} display="flex" justifyContent={"center"} alignItems="center" sx={{ width: "inherit"}}>
+            <ButtonJualHome sx={{position:"absolute"}}/>
             <Box display="flex" flexWrap="wrap" sx={{ width: "100%" }}>
-              <Box display="flex" alignItems="center" flexWrap="wrap" sx={{ width: "100%" }}>
-                <Grid container justify="center" gap={2} >
+              <Box display="flex" alignItems="center" justifyContent="center" flexWrap="wrap" sx={{ width: "100%" }} mx={{
+                xs : 4,
+                md : 0
+              }}>
+                <Grid container justifyContent="start" gap={1}  >
                   {products.data != undefined &&
                     products.data.posts.map((product) => (product.product_category == kategory || kategory == 'Semua' || !kategory) && (
                       <Grid
@@ -64,7 +57,10 @@ const Home = () => {
                         lg={1.8}
                         mb={2}
                         key={product.id}
-                        sx={{ display: "flex",width:"100%" }}
+                        sx={{ display: "flex",width: { 
+                          xs : "160px",
+                          md : "300px"
+                        } }}
                       >
                         <CardProduk product={product} />
                       </Grid>
@@ -74,8 +70,6 @@ const Home = () => {
             </Box>
           </Box>
         </>
-      )}
-    </>
   );
 };
 

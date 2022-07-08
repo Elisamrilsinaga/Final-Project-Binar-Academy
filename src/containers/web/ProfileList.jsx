@@ -15,7 +15,7 @@ const ProfileList = () => {
       <InfoPenjual />
       <Box>
         <Button
-          href={`/profile/${uid}`}
+          href={`/profile`}
           variant="outlined"
           color="primary"
           sx={{

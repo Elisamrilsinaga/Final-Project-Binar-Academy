@@ -30,7 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={islogin ? <Navigate to="/daftar-jual" /> : <Login />} />
             <Route path="/register" element={islogin ? <Navigate to="/daftar-jual" /> : <Register />} />
-            <Route path="/profile/:id" element={islogin ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/profile" element={islogin ? <Profile /> : <Navigate to="/login" />} />
 
             <Route path="/daftar-jual">
               <Route index element={islogin ? <DaftarJual /> : <Navigate to="/login" />} />

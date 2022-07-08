@@ -55,7 +55,10 @@ const Carousel = () => {
 
   return (
     <div className="carousel" style={{ overflow: "hidden" }}>
-      <Slider {...settings}>
+      <Slider {...settings} style={{
+        display: "flex",
+        flexWrap: 'nowrap'
+      }}>
         {images.map((img, idx) => (
           <div key={img.id}>
             <div className={idx === imageIndex ? "slide activeSlide" : "slide"}>
@@ -65,7 +68,7 @@ const Carousel = () => {
                   display: "flex",
                   justifyContent: "center",
                   position: "relative",
-                  marginTop: 30,
+                  marginTop: 30
                 }}
               >
                 <Card
@@ -73,6 +76,7 @@ const Carousel = () => {
                     display: "flex",
                     borderRadius: "20px",
                     background: img.color,
+                    
                   }}
                 >
                   <Box

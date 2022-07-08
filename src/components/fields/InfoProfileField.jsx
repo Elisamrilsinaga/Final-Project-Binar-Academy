@@ -11,26 +11,26 @@ const InfoProfileField = () => {
 
     const kota = useSelector((state) => state.city.city);
     const path = useSelector((state) => state.profile.pathImg);
-    console.log(profile.city)
-    const [fullname, setfullname] = React.useState(profile.fullname || "");
+    console.log('profile',profile)
+    const [fullname, setfullname] = React.useState(profile.user_name || "");
     const [city_id, setcity_id] = React.useState(profile.city|| "");
     const [number_phone, setnumber_phone] = React.useState(profile.number_phone|| "");
     const [address, setAddress] = React.useState(profile.address|| "");
-    const [profile_picture, setProfilePicture] = React.useState(profile.profile_picture|| "");
+    const [profile_picture, setProfilePicture] = React.useState(profile.user_image|| "");
 
     const dispatch = useDispatch()
 
     const handleUpdate = (e) => {
         e.preventDefault();
         const data = {
-            fullname,
-            profile_picture: path ? path : profile_picture,
-            city_id: kota.find((item) => item.city === city_id).id,
+            user_name : fullname,
+            user_image: path ? path : profile_picture,
+            city: kota.find((item) => item.city === city_id).id,
             address,
             number_phone,
         }
 
-        dispatch(UpdateProfile({ uid, data }));
+        dispatch(UpdateProfile({  data }));
     }
 
     return (

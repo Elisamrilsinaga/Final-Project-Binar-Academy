@@ -40,7 +40,7 @@ const MenuProfile = () => {
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem component={Link} href={`/profile/${uid}`} onClick={handleClose}>Profile</MenuItem>
+                <MenuItem component={Link} href={`/profile`} onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handlelogout}>Logout</MenuItem>
             </Menu>
         </>
