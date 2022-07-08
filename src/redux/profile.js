@@ -32,7 +32,7 @@ export const UpdateProfile = createAsyncThunk(
 export const UploadImageProfile = createAsyncThunk(
     'profile/UploadImageProfile',
     async (data) => {
-        const res = await apisecondhand.post('/biodata/upload-profile-pic', data, {
+        const res = await apisecondhand.post('/profile/upload-profile-pic', data, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
