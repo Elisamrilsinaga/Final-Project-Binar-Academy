@@ -7,6 +7,8 @@ import { grey } from "@mui/material/colors";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { useDispatch } from "react-redux";
+import { updateTransaction } from "../../redux/transaction";
 
 const drawerBleeding = 20;
 
@@ -33,16 +35,30 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 const DrawerProductMatch = (props) => {
-  const [open, setOpen] = React.useState(false);
+  
   const { window } = props;
-  const { setStatus } = props;
+  const { setStatus,transaction,product,open,setOpen } = props;
 
+  const dispatch = useDispatch();
+
+  const handleTolak = () => {
+    dispatch(updateTransaction({
+      id: transaction.id,
+      transactionStatus: "rejected"
+    }))
+    setStatus("rejected");
+    setOpen(false);
+  }
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
+    dispatch(updateTransaction({
+      id: transaction.id,
+      transactionStatus: "accepted"
+    }))
+    setStatus("accepted");
     setOpen(false);
-    setStatus(true);
   };
 
   // const toggleDrawer = (newOpen) => () => {
@@ -57,6 +73,7 @@ const DrawerProductMatch = (props) => {
     <Box display={"flex"} justifyContent={"center"}>
       {/* Tolak */}
       <Button
+        onClick={handleTolak}
         sx={{
           fontWeight: 380,
           borderRadius: "16px",
@@ -172,8 +189,7 @@ const DrawerProductMatch = (props) => {
               <Box display="flex">
                 <Box
                   component="img"
-                  alt="camera"
-                  src="/images/profpic1.png"
+                src={transaction?.User.user_image}
                   borderRadius="16px"
                   width="48px"
                   height="48px"
@@ -183,20 +199,20 @@ const DrawerProductMatch = (props) => {
 
                 <Typography mt={1} alignItems="center">
                   <Typography fontSize={12} fontWeight={400}>
-                    Nama Pembeli
+                  {transaction?.User.user_name}
                   </Typography>
                   <Typography fontSize={10} color={"#8A8A8A"}>
-                    Kota
+                {transaction?.User.city}
                   </Typography>
                 </Typography>
               </Box>
 
-              {/* Product */}
+            {/* Product */}
               <Box display="flex">
                 <Box
                   component="img"
-                  alt="camera"
-                  src="/images/jam1.png"
+                  alt=""
+                  src={transaction?.Product?.product_image}
                   borderRadius="16px"
                   width="48px"
                   height="48px"
@@ -206,7 +222,7 @@ const DrawerProductMatch = (props) => {
 
                 <Typography alignItems="center">
                   <Typography fontSize={12} fontWeight={400}>
-                    Jam Tangan Caslo{" "}
+                    {transaction?.Product?.product_name}
                   </Typography>
                   <Typography
                     style={{
@@ -216,10 +232,10 @@ const DrawerProductMatch = (props) => {
                     fontSize={12}
                     fontWeight={400}
                   >
-                    Rp 250.000
+                    Rp. {transaction?.Product?.product_price.toLocaleString("id-ID")}
                   </Typography>
                   <Typography fontSize={12} fontWeight={400}>
-                    Ditawar Rp 200.000
+                    Ditawar Rp {transaction?.price_negotiate.toLocaleString("id-ID")}
                   </Typography>
                 </Typography>
               </Box>

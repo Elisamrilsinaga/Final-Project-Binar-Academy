@@ -10,7 +10,7 @@ const ButtonJualHome = () => {
             sx={{
                 position: "fixed",
                 bottom: 46,
-                left: 0,
+                // left: 0,
             }}
 
         >

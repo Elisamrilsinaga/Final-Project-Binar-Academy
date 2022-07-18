@@ -16,14 +16,15 @@ import Penawaran from "./pages/Penawaran";
 import AddProduk from "./pages/AddProduk";
 import DaftarJual from "./pages/DaftarJual";
 import Profile from "./pages/Profile";
+import { useEffect } from "react";
 // import AuthProtect from "./AuthProtect";
 
 function App() {
-  const islogin = localStorage.getItem("token");
-
+  let islogin = localStorage.getItem("token");
+  
   return (
     <ThemeProvider theme={Theme}>
-      <div className="App">
+      <div className="App" style={{width: "100vw"}}>
         <Router>
           <Routes>
 
@@ -38,7 +39,7 @@ function App() {
               <Route path="add" element={islogin ? <AddProduk /> : <Navigate to="/login" />} />
             </Route>
 
-            <Route path="/penawaran/:id" element={islogin ? <Penawaran /> : <Navigate to="/login" />} />
+            <Route path="/penawaran" element={islogin ? <Penawaran /> : <Navigate to="/login" />} />
           </Routes>
         </Router>
       </div>

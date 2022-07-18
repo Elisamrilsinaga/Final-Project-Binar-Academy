@@ -1,17 +1,19 @@
 import { Box, Typography, Link } from "@mui/material"
+import { useNavigate } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 
 const AddButton = () => {
+    let navigate = useNavigate(); 
     return (
-        <Box component={Link} href={'/daftar-jual/add'} sx={{
+        <Box component={Link} onClick={()=>navigate('/daftar-jual/add')}  sx={{
             borderRadius: '10px',
             color: 'black',
             display: 'flex',
             justifyContent: 'center',
             flexDirection: 'column',
             alignItems: 'center',
-            width: '352px',
-            height: '16.2rem',
+            width: '100%',
+            height: '100%',
             border: '1px dashed #ccc',
             textDecoration: 'none',
             cursor: 'pointer',

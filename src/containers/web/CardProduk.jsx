@@ -1,15 +1,17 @@
 import { Box, Link } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import InfoProduk from "../global/InfoProduk";
 
 const CardProduk = ({ product }) => {
+  let navigate = useNavigate(); 
   return (
     <Box
       component={Link}
-      href={"/daftar-jual/" + product.id}
+      onClick={()=>navigate("/daftar-jual/" + product.id)}
       p={1}
       sx={{
-        width: "352px",
+        width: "100%",
         textDecoration: "none",
         cursor: "pointer",
         borderRadius: "10px",
@@ -20,7 +22,7 @@ const CardProduk = ({ product }) => {
         },
       }}
     >
-      <Box>
+      {/* <Box> */}
         <Box
           component={"img"}
           src={ product.product_image}
@@ -29,7 +31,7 @@ const CardProduk = ({ product }) => {
           height={"10rem"}
           borderRadius={2}
         />
-      </Box>
+      {/* </Box> */}
 
       <InfoProduk key={product.id} product={product} />
     </Box>

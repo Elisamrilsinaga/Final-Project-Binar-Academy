@@ -1,20 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-// import React, { useCallback, useEffect, useState } from "react";
-// import { Outlet, Navigate } from "react-router-dom";
-
-// const fakeApi = () =>
-//     new Promise((resolve, reject) => {
-//         const isAuthenticated = localStorage.getItem("isAuthenticated");
-//         if (isAuthenticated === "true") {
-//             setTimeout(function () {
-//                 resolve(200);
-//             }, 500);
-//         }
-//     });
-
-
 const AuthProtect = () => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const [isLogin, setIsLogin] = useState('');

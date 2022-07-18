@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { useNavigate } from 'react-router-dom';
 import apisecondhand from './apis/apisecondhand';
 
 export const AuthLogin = createAsyncThunk(
@@ -6,13 +7,10 @@ export const AuthLogin = createAsyncThunk(
     async (data) => {
         try{
             const res = await apisecondhand.post('/login', data);
-            console.log(res.data)
-            if (res.data.status_login == 'Berhasil') {
+            if (res.data.token) {
                 localStorage.setItem('token', res.data.token);
-                localStorage.setItem('uid', res.data.user_id);
-                return res.data;
+                return res.data.token;
             } else {
-                
                 throw new Error(res.data.message);
             }
         }
@@ -25,10 +23,16 @@ export const AuthLogin = createAsyncThunk(
 export const AuthRegister = createAsyncThunk(
     'auth/AuthRegister',
     async (data) => {
-        const res = await apisecondhand.post('/register', data);
+        const res = await apisecondhand.post('/register', data,{
+            headers: {
+                "accept": "application/json"
+            }
+        });
         if (res.data.status) {
+            
             return res.data;
         } else {
+            console.log(res.data.message)
             throw new Error(res.data.message);
         }
     }
@@ -68,9 +72,11 @@ const authSlice = createSlice({
             return { ...state, loading: true }
         },
         [AuthRegister.fulfilled]: (state, action) => {
-            return { ...state, loading: false, status: true }
+
+            return { ...state, loading: false, status: false }
         },
         [AuthRegister.rejected]: (state, action) => {
+            console.log(action)
             return { ...state, loading: false, error: action.error.message, status: false }
         },
     }

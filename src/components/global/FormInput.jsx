@@ -5,7 +5,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const FormInput = ({ label, value, setValue, type, placeholder, error, select }) => {
     const [showPassword, setShowPassword] = React.useState(false)
-
     return (
         <Box width={"100%"} >
             <Typography fontSize={12} mb={1}>{label}</Typography>
@@ -15,16 +14,16 @@ const FormInput = ({ label, value, setValue, type, placeholder, error, select })
                 error={error ? true : false}
                 disableUnderline
                 variant="standard"
-                value={value}
+                value={value || ""}
                 displayEmpty
                 fullWidth
                 renderValue={() => (value !== '' ? value : placeholder)}
                 sx={{ marginBottom: '1rem', borderRadius: '16px', border: '1px solid #D0D0D0', color: value === '' ? '#D0D0D0' : '#000', padding: '0.5rem' }}
             >
                 <MenuItem disabled value="">{placeholder}</MenuItem>
-                {select.map((item, index) => {
-                    return <MenuItem key={index} value={item.city}>{item.city}</MenuItem>
-                })}
+                {select?.map((item, index) => (
+                    item && <MenuItem key={index} value={item}>{item}</MenuItem>
+                ))}
             </Select>}
 
             {type === 'text' && <TextField
@@ -36,7 +35,7 @@ const FormInput = ({ label, value, setValue, type, placeholder, error, select })
                 onChange={(e) => setValue(e.target.value)}
                 type={type}
                 placeholder={placeholder}
-                error={error}
+                error
                 required
                 fullWidth
             />}

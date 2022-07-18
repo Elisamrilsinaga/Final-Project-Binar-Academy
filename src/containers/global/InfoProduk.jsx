@@ -5,36 +5,15 @@ const InfoProduk = ({ product }) => {
 
   return (
     <>
-      {isMobile ? (
-        <>
-          <Typography variant="subtitle1" fontSize={".85rem"} mb={1} noWrap>
-            {product.product}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            fontSize={".7rem"}
-            mb={1}
-          >
-            {product.product_category}
-          </Typography>
-          <Typography variant="subtitle2" fontSize={".8rem"}>
-            Rp. {product.product_price.toLocaleString("id-ID")}
-          </Typography>
-        </>
-      ) : (
-        <>
-          <Typography variant="subtitle1" mb={1}>
-            {product.product}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" mb={1}>
-            {product.product_category}
-          </Typography>
-          <Typography variant="subtitle2">
-            Rp. {product.product_price.toLocaleString("id-ID")}
-          </Typography>
-        </>
-      )}
+      <Typography variant="subtitle1" mb={1} noWrap={false} fontSize={{xs:".85rem", md:"1rem"}}>
+        {product.product}
+      </Typography>
+      <Typography variant="body2" color="textSecondary" mb={1} fontSize={{xs:".7rem", md:"1rem"}}>
+        {product.product_category}
+      </Typography>
+      <Typography variant="subtitle2" fontSize={{xs:".8rem", md:"1rem"}}>
+        Rp. {product.product_price.toLocaleString("id-ID")}
+      </Typography>
     </>
   );
 };

@@ -6,8 +6,7 @@ import DrawerStatus from "../drawer/DrawerStatus";
 
 const InfoPenawaranM = () => {
   const [terima, setTerima] = React.useState(false);
-  console.log(terima);
-
+  
   return (
     <Box>
       <InfoPembeli />

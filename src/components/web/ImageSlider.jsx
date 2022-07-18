@@ -32,6 +32,7 @@ const ImageSlider = () => {
       }}
       modules={[EffectFade, Navigation, Pagination]}
       className="mySwiper"
+      // height={{xs:"300px", md:"400px"}}
     >
       {/* {img && img.map((image) => {
         return ( */}

@@ -12,11 +12,13 @@ import ButtonClick from "../global/ButtonClick";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { useDispatch } from "react-redux";
+import { updateTransaction } from "../../redux/transaction";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(4),
-    width: 360,
+    width: 330,
   },
   "& .MuiDialogActions-root": {
     padding: theme.spacing(2),
@@ -52,16 +54,27 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const ModalproductMatch = ({ setStatus }) => {
-  const [open, setOpen] = React.useState(false);
+const ModalproductMatch = ({ setStatus,product,transaction,setOpen,open }) => {
+  const dispatch = useDispatch();
 
+  const handleTolak = () => {
+    dispatch(updateTransaction({
+      id: transaction.id,
+      transactionStatus: "rejected"
+    }))
+    setStatus("rejected");
+    setOpen(false);
+  }
   const handleClickOpen = () => {
     setOpen(true);
-
   };
   const handleClose = () => {
+    dispatch(updateTransaction({
+      id: transaction.id,
+      transactionStatus: "accepted"
+    }))
+    setStatus("accepted");
     setOpen(false);
-    setStatus(true);
   };
 
   return (
@@ -73,10 +86,10 @@ const ModalproductMatch = ({ setStatus }) => {
       mb={3}
     >
       {/* Button Product Match */}
-      <Box width={"20%"} mr={2}>
-        <ButtonClick title={"Tolak"} />
+      <Box width={{xs: "100%", md:"20%"}} mr={2}>
+        <ButtonClick onClick={handleTolak} title={"Tolak"} />
       </Box>
-      <Box width={"20%"}>
+      <Box width={{xs: "100%", md:"20%"}}>
         <ButtonClick
           onClick={handleClickOpen}
           title={
@@ -127,8 +140,8 @@ const ModalproductMatch = ({ setStatus }) => {
             <Box display="flex">
               <Box
                 component="img"
-                alt="camera"
-                src="/images/profpic1.png"
+                alt=""
+                src={transaction?.User.user_image}
                 borderRadius="16px"
                 width="68px"
                 height="68px"
@@ -137,9 +150,9 @@ const ModalproductMatch = ({ setStatus }) => {
               />
 
               <Typography mt={3} alignItems="center">
-                <Typography>Nama Pembeli</Typography>
+                <Typography>{transaction?.User.user_name}</Typography>
                 <Typography fontSize={12} color={"#8A8A8A"}>
-                  Kota
+                  {transaction?.User.city}
                 </Typography>
               </Typography>
             </Box>
@@ -149,7 +162,7 @@ const ModalproductMatch = ({ setStatus }) => {
               <Box
                 component="img"
                 alt="camera"
-                src="/images/jam1.png"
+                src={transaction?.Product?.product_image}
                 borderRadius="16px"
                 width="68px"
                 height="68px"
@@ -158,16 +171,16 @@ const ModalproductMatch = ({ setStatus }) => {
               />
 
               <Typography alignItems="center">
-                <Typography>Jam Tangan Caslo </Typography>
+                <Typography>{transaction?.Product?.product_name} </Typography>
                 <Typography
                   style={{
                     textDecorationLine: "line-through",
                     textDecorationStyle: "solid",
                   }}
                 >
-                  Rp 250.000
+                  Rp. {transaction?.Product?.product_price.toLocaleString("id-ID")}
                 </Typography>
-                <Typography>Ditawar Rp 200.000</Typography>
+                <Typography>Ditawar Rp {transaction?.price_negotiate.toLocaleString("id-ID")}</Typography>
               </Typography>
             </Box>
           </Box>

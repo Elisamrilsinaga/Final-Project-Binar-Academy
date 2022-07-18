@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const WallpaperLogin = () => {
   return (
-    <Grid container item lg={6} xs={12}>
+    <Grid container item lg={6} xs={12} display={{xs : "none", md: "block"}} width={"100%"}>
       <Box
         component="img"
         sx={{

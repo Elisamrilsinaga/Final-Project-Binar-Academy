@@ -4,11 +4,13 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
+import { useNavigate } from "react-router-dom";
 
 const MenuProfile = () => {
+    let navigate = useNavigate(); 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const uid = localStorage.getItem("uid");
+    
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -17,7 +19,6 @@ const MenuProfile = () => {
     };
 
     const handlelogout = () => {
-        localStorage.removeItem("uid");
         localStorage.removeItem("token");
         window.location.reload();
     }
@@ -40,7 +41,7 @@ const MenuProfile = () => {
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem component={Link} href={`/profile`} onClick={handleClose}>Profile</MenuItem>
+                <MenuItem component={Link} onClick={()=>{navigate(`/profile`);handleClose()}} >Profile</MenuItem>
                 <MenuItem onClick={handlelogout}>Logout</MenuItem>
             </Menu>
         </>

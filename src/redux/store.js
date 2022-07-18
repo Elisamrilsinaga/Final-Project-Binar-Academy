@@ -3,6 +3,7 @@ import authReducer from "./auth";
 import productReducer from "./product";
 import profileReducer from "./profile";
 import transactionReducer from "./transaction";
+import notifReducer from "./notif";
 
 
 const rootReducer = {
@@ -10,7 +11,7 @@ const rootReducer = {
   product: productReducer,
   transaction: transactionReducer,
   profile: profileReducer,
-
+  notif: notifReducer
 };
 
 const store = configureStore({

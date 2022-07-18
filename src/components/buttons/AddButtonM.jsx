@@ -1,9 +1,11 @@
 import { Box, Typography, Link } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from "react-router-dom";
 
 const AddButtonM = () => {
+    let navigate = useNavigate(); 
     return (
-        <Box component={Link} href={'/daftar-jual/add'} sx={{
+        <Box component={Link} onClick={()=>navigate('/daftar-jual/add')} sx={{
             display: 'flex',
             justifyContent: 'center',
             flexDirection: 'column',

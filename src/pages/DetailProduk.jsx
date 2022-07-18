@@ -13,139 +13,122 @@ import DrawerTawar from "../components/drawer/DrawerTawar";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductItem } from "../redux/product";
+import { fetchTransaction } from "../redux/transaction";
+import { GetProfile } from "../redux/profile";
+import { GetAllNotif,CreateNotif } from "../redux/notif";
+
 
 const DetailProduk = () => {
   const [openModal, setOpenModal] = React.useState(false);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
   const [wait, setWait] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:425px)");
   let navigate = useNavigate();
-
+  
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.product.productsDetail);
-  const buyer = localStorage.getItem("uid", true);
-  
+  const profile = useSelector((state) => state.profile.profile.data);
+  const transactions = useSelector((state) => state.transaction.transactions);
+  const notifs = useSelector((state) => state.notif.notifs.data);
+
+  useEffect(() => {
+    let found = Array.isArray(transactions) ? transactions?.findIndex(x => x.product_id === detail?.data?.id ) : -1
+    if(!wait) return
+    let checkNotif = Array.isArray(notifs) ? notifs?.findIndex(x => x?.transaction_id === transactions[found]?.id ) : -1
+    console.log(checkNotif,transactions[found])
+    if(checkNotif === -1 && transactions[found]?.user_id && transactions[found]?.product_id && transactions[found]?.id){
+      let data = {
+        seller: transactions[found].user_id,
+        productId: transactions[found].product_id,
+        transactionId: transactions[found].id,
+        title: "Penawaran",
+        message: "Penawaran Product"
+      }
+      console.log(data)
+      dispatch(CreateNotif(data));
+    }
+  }, [wait])
+
+  useEffect(() => {
+    let found = Array.isArray(transactions) ? transactions?.findIndex(x => x.product_id === detail?.data?.id ) : -1
+    setWait(found !== -1)
+    console.log(wait)
+    
+  }, [transactions]);
+
   useEffect(() => {
     dispatch(fetchProductItem(id));
-  }, [dispatch, id]);
-
+    dispatch(fetchTransaction());
+    dispatch(GetProfile());
+    dispatch(GetAllNotif());
+  }, [dispatch, id, openModal]);
+ 
   return (
     <>
-      {isMobile ? (
-        <>
-          {openDrawer && (
-            <DrawerTawar setDrawer={setOpenDrawer} setSubmit={setWait} />
-          )}
-          <ImageSlider />
-          <Button
-            onClick={() => navigate(-1)}
-            sx={{
-              position: "fixed",
-              top: "20px",
-              left: "0",
-              zIndex: "99",
-            }}
-          >
-            <ArrowBackIcon
-              style={{
-                fontSize: "30px",
-                color: "black",
-                backgroundColor: "white",
-                borderRadius: "50%",
-                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.15)",
+          {/* <Box  > */}
+              {openModal && !isMobile && (
+                <Box display={{xs:"none",md:"block"}}>
+                  <ModalTawar setModal={setOpenModal} setSubmit={setWait} detail={detail}/>
+                </Box>
+              )}
+              {openModal && isMobile && (
+              <Box display={{xs:"block",md:"none"}}>
+                <DrawerTawar setDrawer={setOpenModal} setSubmit={setWait} detail={detail} />
+              </Box>
+               )} 
+          {/* </Box> */}
+              
+          <Box display={{xs: "none", md: "block"}}>
+            <Header />
+          </Box>
+          <Box display={{xs: "block", md: "none"}}>
+            <Button
+              onClick={() => navigate(-1)}
+              sx={{
+                position: "fixed",
+                top: "20px",
+                left: "0",
+                zIndex: "99",
               }}
-            />
-          </Button>
-
-          <Box
-            sx={{
-              position: "fixed",
-              bottom: "20px",
-              zIndex: "99",
-              width: "90%",
-              left: "5%",
-            }}
-          >
-            {detail.data && detail.data.User.id == buyer ? (
-              <>
-                <ButtonClick title="Terbitkan" primary />
-                <ButtonClick title="Edit" />
-              </>
-            ) : wait ? (
-              <>
-                <ButtonClick title="Menunggu respons Penjual" disabled />
-              </>
-            ) : (
-              <>
-                <ButtonClick
-                  title="Saya tertarik dan ingin nego"
-                  primary
-                  onClick={() => setOpenDrawer(true)}
-                />
-              </>
-            )}
+            >
+              <ArrowBackIcon
+                style={{
+                  fontSize: "30px",
+                  color: "black",
+                  backgroundColor: "white",
+                  borderRadius: "50%",
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.15)",
+                }}
+              />
+            </Button>
           </Box>
-
-          <Box
-            mx={2}
-            mb={6}
-            sx={{
-              position: "relative",
-              top: "-30px",
-              zIndex: "1",
-            }}
+          <Grid container 
+          width={"100%"}
+          spacing={{xs:0,md:3}} px={{xs: 0, md:28}} mt={{xs:0,md:4}} sx={{}}
+          display={"flex"} flexDirection={{xs: "column-reverse", md:"row"}}
           >
-            <ContainersBox
-              data={<InfoProdukDetail key={detail.data && detail.data.id} detail={detail} />}
-            />
-            <ContainersBox data={<InfoPenjual penjual={detail.data && detail.data.User} />} />
-            <ContainersBox
-              data={
-                <>
-                  <Typography variant="body1" mb={1}>
-                    Deskripsi{" "}
-                  </Typography>
-                  <Typography variant="caption" color="#8A8A8A">
-                    {detail.data?.product_desc}
-                  </Typography>
-                  <br />
-                  <br />
-                  <Typography variant="caption" color="#8A8A8A">
-                    {detail.data?.product_desc}
-                  </Typography>
-                </>
-              }
-            />
-          </Box>
-        </>
-      ) : (
-        <>
-          {openModal && (
-            <ModalTawar setModal={setOpenModal} setSubmit={setWait} />
-          )}
-          <Header />
-          <Grid container spacing={3} px={28} mt={4} sx={{}}>
-            <Grid item xs={12} md={7}>
+            <Grid 
+            item xs={12} md={7}
+            
+            >
               <Box
-                position={"relative"}
+                // position={"relative"}
                 width={"100%"}
-                height={"500px"}
-                mb={2}
-                borderRadius="20px"
+                height={{xs:"300px",md:"400px"}}
+                // mt={"200px"}
+                // borderRadius="20px"
               >
                 <ImageSlider />
               </Box>
+              <Box p={{xs: "16px",md:"0"}} mt={{xs: "100px",md:"16px"}} position={{xs:"absolute", md: "relative"}} width = {"100%"}>
+                  
               <ContainersBox
+                
                 data={
                   <>
                     <Typography variant="body1" mb={1}>
                       Deskripsi{" "}
                     </Typography>
-                    <Typography variant="caption" color="#8A8A8A">
-                      {detail.data?.product_desc}
-                    </Typography>
-                    <br />
                     <br />
                     <Typography variant="caption" color="#8A8A8A">
                       {detail.data?.product_desc}
@@ -153,13 +136,26 @@ const DetailProduk = () => {
                   </>
                 }
               />
+              </Box>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid 
+            // item xs={12} md={5}
+                position={{xs:"absolute", md: "relative"}}
+                flexGrow={{xs:0,md:1}}
+              width={{xs:"100%",md:"auto"}}
+              mt={{xs: wait? "-630px" : "0", md:4}}
+              mb={{xs: "-110px",md:0}}
+              ml={{md:4}}
+              px={{xs: "16px", md:0}}
+              zIndex={2}
+            >
               <ContainersBox
+                // borderRadius="20px"  
+                
                 data={
                   <>
                     <InfoProdukDetail key={detail.data && detail.data.id} detail={detail} />
-                    {detail.data && detail.data.User.id == buyer ? (
+                    {detail.data?.User?.user_name === profile?.user_name ? (
                       <>
                         <ButtonClick title="Terbitkan" primary />
                         <ButtonClick title="Edit" />
@@ -173,11 +169,13 @@ const DetailProduk = () => {
                       </>
                     ) : (
                       <>
+                        <Box position={{xs: "fixed", md:"relative"}} bottom={{xs: "5%"}} width={{xs:"80%", md:"100%"}}>
                         <ButtonClick
                           title="Saya tertarik dan ingin nego"
                           primary
-                          onClick={() => setOpenModal(true)}
+                          onClick={() => {setOpenModal(true)}}
                         />
+                        </Box>
                       </>
                     )}
                   </>
@@ -187,8 +185,6 @@ const DetailProduk = () => {
             </Grid>
           </Grid>
         </>
-      )}
-    </>
   );
 };
 

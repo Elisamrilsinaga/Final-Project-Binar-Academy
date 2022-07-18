@@ -7,7 +7,7 @@ const ButtonBack = (left, right, bottom, top) => {
     return (
         <ArrowBackIcon onClick={() => navigate(-1)}
             sx={{
-                fontSize: "30px", color: "black", borderRadius: '50%', position: "fixed", zIndex: "99", cursor: 'pointer', left: left, right: right, bottom: bottom, top: top,
+                fontSize: "30px", color: "black", borderRadius: '50%', zIndex: "99", cursor: 'pointer', left: left, right: right, bottom: bottom, top: top,
             }} />
     )
 }

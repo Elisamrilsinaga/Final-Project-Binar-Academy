@@ -1,11 +1,16 @@
-import { Box, InputAdornment, TextField } from '@mui/material'
+import { Box,  InputAdornment, TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 const SearchField = () => {
+    let navigate = useNavigate(); 
     const [value, setValue] = React.useState('');
+    const handleSearch = () => {
+        navigate(`/?search=${value}`)
+    }
     return (
-        <Box display='flex' alignItems='center' mr={2} width={'80rem'}>
+        <Box display='flex' alignItems='center' mr={2} width={'100%'}>
             <TextField
                 id="search"
                 placeholder="Cari di sini ..."
@@ -15,9 +20,11 @@ const SearchField = () => {
                 variant="standard"
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment position='end'>
+                            // <Button >
+                        <InputAdornment position='end' onClick={()=>handleSearch()}>
                             <SearchIcon />
                         </InputAdornment>
+                            // </Button>
                     ),
                     disableUnderline: true,
                     style: {

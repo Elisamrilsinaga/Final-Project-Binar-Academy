@@ -1,5 +1,5 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -29,10 +29,9 @@ const thumbInner = {
   overflow: "hidden",
 };
 
-const DropzonePic = (props) => {
+const DropzonePic = ({myFiles, setMyFiles}) => {
   const isMobile = useMediaQuery("(max-width:600px)");
-  const [myFiles, setMyFiles] = useState([]);
-
+  
   //   accept file then preview it
   const onDrop = useCallback(
     (acceptedFiles) => {

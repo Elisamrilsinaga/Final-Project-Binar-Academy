@@ -18,7 +18,7 @@ const LoginField = () => {
   const status = useSelector((state) => state.auth.status);
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  console.log(status)
+  // console.log(status)
   const handlelogin = async (e) => {
     e.preventDefault();
     if (email === "" || password === "") {
@@ -38,12 +38,13 @@ const LoginField = () => {
   useEffect(() => {
     if (status) {
       Navigate("/");
+      window.location.reload();
     }
   }, [status, Navigate]);
 
   return (
     <>
-      <Box display={'flex'} flexDirection='column' justifyContent={'center'} sx={{ padding: { sx: "0", lg: "10px" } }} >
+      <Box display={'flex'} flexDirection='column' justifyContent={'center'} sx={{ px: { xs: "15px", lg: "10px" } }} >
         <Box mb={2} >
           <Typography fontWeight={700} fontSize={24} >
             Masuk

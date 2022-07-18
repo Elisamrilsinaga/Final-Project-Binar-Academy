@@ -1,45 +1,55 @@
-import { useMediaQuery } from '@mui/material'
 import CardProduk from '../web/CardProduk'
-import CardPrdoukM from '../mobile/CardProdukM'
 import NoData from './NoData'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories, fetchProducts } from "../../redux/product";
+import { useEffect } from 'react';
+import { Grid } from '@mui/material';
 
 const Terjual = () => {
-    const box = []
-    const isMobile = useMediaQuery('(max-width:425px)')
+    const products = useSelector((state) => state.product.categories);
+    const sold = products?.data  && products.data.filter(x => x.product_status === "available")
+    console.log(sold)
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(fetchCategories());
+    }, []);
+  
     return (
         <>
             {
-                isMobile ? (
-                    <>
-                        {
-                            box.length === 0 ? (
-                                <NoData />
-                            ) : (
-                                <>
-                                    <CardPrdoukM />
-                                    <CardPrdoukM />
-                                    <CardPrdoukM />
-
-                                </>
-                            )
-                        }
-                    </>
+                
+                !sold || sold.length === 0 ? (
+                    <NoData />
                 ) : (
-                    <>
+                    <Grid
+                        item
+                        lg={1.8}
+                        mb={2}
+                        gap={{xs:1,md:3}}
+                        sx={{ display: "flex", flexWrap: "wrap" }}
+                        width={"100%"}
+                    >
                         {
-                            box.length === 0 ? (
-                                <NoData />
-                            ) : (
+                            sold?.map((product) => (
                                 <>
-                                    <CardProduk />
-                                    <CardProduk />
-                                    <CardProduk />
-                                    <CardProduk />
+                                    <Grid
+                                        item
+                                        lg={1.8}
+                                        mb={2}
+                                        key={product.id}
+                                        sx={{ display: "flex",width: { 
+                                            xs : "165px",
+                                            md : "200px"
+                                        } }}
+                                        >
+                                        <CardProduk key={product.id} product={product} />
+                                        </Grid>
                                 </>
-                            )
+                            ))
                         }
-                    </>
+                    </Grid>
                 )
+
             }
         </>
     )

@@ -3,9 +3,27 @@ import apisecondhand from "./apis/apisecondhand";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
+  async (param) => {
+    const link = param.category ? "/products/filter?limit=12" : "/products/search?limit=12"
+    try{
+      const response = await apisecondhand.post(link,param.data,{
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        }
+      });
+      return response.data;
+    }
+    catch(err){
+      return {}
+    }
+  }
+);
+
+export const fetchCategories = createAsyncThunk(
+  "products/fetchCategories",
   async () => {
     try{
-      const response = await apisecondhand.get("/home",{
+      const response = await apisecondhand.get('/products?limit=1000',{
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token"),
         }
@@ -33,24 +51,45 @@ export const fetchProductItem = createAsyncThunk(
 
 export const fetchProductsUser = createAsyncThunk(
   "products/fetchProductsUser",
-  async () => {
-    const response = await apisecondhand.get(`/product`, {
+  async (profile) => {
+    try{
+      const response = await apisecondhand.get('/products?limit=1000',{
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        }
+      });
+      return response.data;
+    }
+    catch(err){
+      console.log(err)
+      return {}
+    }
+  }
+);
+
+export const fetchCreateProduct = createAsyncThunk(
+  "products/fetchCreateProduct",
+  async (data) => {
+    console.log(data)
+    const response = await apisecondhand.post(`/product/create`,data, {
       headers: {
-        accept: "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        "accept": "application/json",
+        "Content-Type": "multipart/form-data",
+        "Authorization": "Bearer " + localStorage.getItem("token"),
       },
     });
     return response.data;
   }
 );
 
-export const fetchCreateProduct = createAsyncThunk(
-  "products/fetchCreateProduct",
-  async () => {
-    const response = await apisecondhand.post(`/product`, {
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async ({data,id}) => {
+    console.log(data,id)
+    const response = await apisecondhand.post(`/product/${id}`,data, {
       headers: {
-        accept: "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        "accept": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token"),
       },
     });
     return response.data;
@@ -60,7 +99,7 @@ export const fetchCreateProduct = createAsyncThunk(
 const initialState = {
   products: [],
   productsDetail: [],
-  productsUser: [],
+  productsUser: {},
   user: {},
   img: [],
   loading: false,
@@ -86,10 +125,20 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [fetchProducts.fulfilled]: (state, action) => {
-      // console.log("fulfilled");
       return { ...state, loading: false, products: action.payload };
     },
     [fetchProducts.rejected]: (state, action) => {
+      // console.log("rejected");
+      return { ...state, loading: false, error: action.error };
+    },
+    [fetchCategories.pending]: (state, action) => {
+      // console.log("pending");
+      return { ...state, loading: true, error: null };
+    },
+    [fetchCategories.fulfilled]: (state, action) => {
+      return { ...state, loading: false, categories: action.payload };
+    },
+    [fetchCategories.rejected]: (state, action) => {
       // console.log("rejected");
       return { ...state, loading: false, error: action.error };
     },
@@ -118,7 +167,7 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [fetchProductsUser.fulfilled]: (state, action) => {
-      // console.log("fulfilled");
+      console.log(action);
       return { ...state, loading: false, productsUser: action.payload };
     },
     [fetchProductsUser.rejected]: (state, action) => {
@@ -131,13 +180,23 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [fetchCreateProduct.fulfilled]: (state, action) => {
-      // console.log("fulfilled");
+      console.log(action.payload)
       return { ...state, loading: false, post: [action.payload] };
     },
     [fetchCreateProduct.rejected]: (state, action) => {
-      // console.log("rejected");
       return { ...state, loading: false, error: action.error };
     },
+    [updateProduct.pending]: (state, action) => {
+      // console.log("pending");
+      return { ...state, loading: true, error: null };
+    },
+    [updateProduct.fulfilled]: (state, action) => {
+      return { ...state, loading: false, post: [action.payload] };
+    },
+    [updateProduct.rejected]: (state, action) => {
+      return { ...state, loading: false, error: action.error };
+    },
+    
   },
 });
 

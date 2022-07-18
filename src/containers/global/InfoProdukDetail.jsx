@@ -1,8 +1,6 @@
-import { useMediaQuery, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const InfoProdukDetail = ({ detail }) => {
-  const isMobile = useMediaQuery("(max-width:425px)");
-  console.log(detail)
   return (
     <>
       <Typography variant="subtitle1" mb={1} fontSize= {{xs : ".85rem", md : "1rem"} } noWrap={{xs: true, md: false}}>

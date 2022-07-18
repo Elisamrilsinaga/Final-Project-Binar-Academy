@@ -28,11 +28,12 @@ const RegisterField = () => {
           dispatch(setError("Password tidak valid"));
         } else {
           const data = {
-            name,
-            email,
-            password,
+            userName : name,
+            email : email,
+            password : password,
           };
           dispatch(AuthRegister(data));
+          Navigate("/login");
         }
   }
 
@@ -44,7 +45,7 @@ const RegisterField = () => {
 
   return (
     <>
-      <Box display={'flex'} flexDirection='column' justifyContent={'center'} sx={{ padding: { sx: "0", lg: "10px" } }}>
+      <Box display={'flex'} flexDirection='column' justifyContent={'center'} sx={{ px: { xs: "15px", lg: "10px" } }} >
         <Box mb={2} >
           <Typography fontWeight={700} fontSize={24} >
             Daftar

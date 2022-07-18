@@ -1,8 +1,9 @@
 import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import InfoPenjual from "../global/InfoPenjual";
 
 const ProfileList = () => {
-  const uid = localStorage.getItem("uid");
+  let navigate = useNavigate(); 
   return (
     <Box
       display="flex"
@@ -15,7 +16,7 @@ const ProfileList = () => {
       <InfoPenjual />
       <Box>
         <Button
-          href={`/profile`}
+          onClick={()=>navigate(`/profile`)}
           variant="outlined"
           color="primary"
           sx={{

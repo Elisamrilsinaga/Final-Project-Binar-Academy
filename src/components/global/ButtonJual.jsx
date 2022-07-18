@@ -1,8 +1,10 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
 const ButtonJual = () => {
+  let navigate = useNavigate(); 
   return (
     <Box
       width={1.0}
@@ -15,7 +17,7 @@ const ButtonJual = () => {
       }}
     >
       <Button
-        href={"/daftar-jual/add"}
+        onClick={()=>navigate("/daftar-jual/add")}
         variant="contained"
         sx={{
           backgroundColor: "#7126B5",

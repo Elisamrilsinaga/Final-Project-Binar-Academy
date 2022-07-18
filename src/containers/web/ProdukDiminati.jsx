@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Link, Box } from "@mui/material";
+import apisecondhand from "../../redux/apis/apisecondhand";
 
 const ProdukDiminati = ({ productrans }) => {
+  let navigate = useNavigate(); 
+  
+  const [detail,setDetail] = useState({});
+  console.log(productrans)
+  useEffect(() => {
+    (async()=>{
+      const response = await apisecondhand.get(`/product/${productrans?.product_id}`, {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        },
+      });
+      setDetail(response.data?.data)
+    })()
+  }, [productrans]);
+
   return (
     <Box
       key={productrans.id}
       component={Link}
-      href={"/daftar-jual/" + productrans.product.id}
+      onClick={()=>navigate("/penawaran",{ state:{transaction: productrans} })}
       p={1}
       sx={{
-        width: "352px",
+        width: {xs: "350px", md:"435px"},
         textDecoration: "none",
         cursor: "pointer",
         borderRadius: "10px",
@@ -20,27 +37,43 @@ const ProdukDiminati = ({ productrans }) => {
         },
       }}
     >
-      <Box key={productrans.id}>
-        <Box
-          component={"img"}
-          src={`https://scnd-appr-beta.herokuapp.com/${productrans.product.product_pictures[0].picture}`}
-          image
-          width={"100%"}
-          height={"10rem"}
-          borderRadius={2}
-        />
-
-        <Typography variant="subtitle1" mb={1}>
-          {productrans.product.product}
-        </Typography>
-        <Typography variant="subtitle2" mb={1}>
-          Rp. {productrans.product.price.toLocaleString("id-ID")}
-        </Typography>
-        <Typography variant="subtitle2" mb={1}>
-          Menawar Rp. {productrans.bid_price.toLocaleString("id-ID")}
-        </Typography>
-        {/* <Typography variant="subtitle2">Status Penawaran : Diterima</Typography> */}
-      </Box>
+     <Box display={"flex"} mt={2} >
+          <Box
+            component={"img"}
+            src={
+              detail?.product_image
+            }
+            sx={{
+              width: "4rem",
+              height: "4rem",
+              mr:"1rem",
+              borderRadius: "8px",
+              boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.15)",
+              // marginRight: "2rem",
+            }}
+          />
+          <Box width={"100%"}>
+            <Box>
+              <Box display={"flex"} justifyContent="space-between">
+                <Typography variant="caption" color={"GrayText"} mb={1}>
+                  Penawaran produk
+                </Typography>
+                {/* <Typography variant="caption" color={"GrayText"} mb={1}>
+                  20 Apr, 14:04
+                </Typography> */}
+              </Box>
+              <Typography variant="subtitle1" mb={1}>
+                {detail?.product_name}
+              </Typography>
+              <Typography variant="subtitle2" mb={1}>
+                Rp. {detail?.product_price?.toLocaleString("id-ID")}
+              </Typography>
+              <Typography variant="subtitle1" mb={1}>
+                Ditawar Rp {productrans?.price_negotiate?.toLocaleString("id-ID")}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
     </Box>
   );
 };

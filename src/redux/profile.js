@@ -17,31 +17,18 @@ export const GetProfile = createAsyncThunk(
 
 export const UpdateProfile = createAsyncThunk(
     'profile/UpdateProfile',
-    async ({ data }) => {
+    async (data ) => {
         console.log(data)
-        const res = await apisecondhand.put('/profile', data, {
+        const res = await apisecondhand.post('/profile', data, {
             headers: {
                 'accept': 'application/json',
+                "Content-Type": "multipart/form-data",
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             }
         });
         return res.data;
     }
 );
-
-export const UploadImageProfile = createAsyncThunk(
-    'profile/UploadImageProfile',
-    async (data) => {
-        const res = await apisecondhand.post('/profile/upload-profile-pic', data, {
-            headers: {
-                'accept': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        })
-        return res.data;
-    }
-);
-
 
 const initialState = {
     profile: {},
@@ -71,20 +58,14 @@ const profileSlice = createSlice({
         [UpdateProfile.pending]: (state) => {
             return { ...state, loading: true }
         },
-        [UpdateProfile.fulfilled]: (state) => {
-            console.log('fulfilled');
+        [UpdateProfile.fulfilled]: (state,action) => {
+            localStorage.removeItem("token");
+            localStorage.setItem('token', action.payload?.token);
+            console.log(action.payload)
+            window.location.reload();
             return { ...state, loading: false }
         },
         [UpdateProfile.rejected]: (state, action) => {
-            return { ...state, loading: false, error: action.payload }
-        },
-        [UploadImageProfile.pending]: (state) => {
-            return { ...state, loading: true }
-        },
-        [UploadImageProfile.fulfilled]: (state, action) => {
-            return { ...state, loading: false, pathImg: action.payload.message.path }
-        },
-        [UploadImageProfile.rejected]: (state, action) => {
             return { ...state, loading: false, error: action.payload }
         },
     }

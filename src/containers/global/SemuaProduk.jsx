@@ -1,50 +1,61 @@
 import { useEffect } from "react";
-import { useMediaQuery, Grid } from "@mui/material";
-import AddButtonM from "../../components/buttons/AddButtonM";
+import { Grid } from "@mui/material";
 import AddButton from "../../components/buttons/AddButton";
-import CardProdukM from "../mobile/CardProdukM";
 import CardProduk from "../web/CardProduk";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsUser } from "../../redux/product";
+import { GetProfile } from "../../redux/profile";
 
 const SemuaProduk = () => {
-  const isMobile = useMediaQuery("(max-width:425px)");
-
+  const profile = useSelector((state) => state.profile.profile.data);
   const productsUser = useSelector((state) => state.product.productsUser);
+  
   const dispatch = useDispatch();
-
+  console.log(productsUser,profile)
   useEffect(() => {
+    dispatch(GetProfile());
     dispatch(fetchProductsUser());
   }, [dispatch]);
   return (
-    <>
-      {isMobile ? (
-        <>
-          <AddButtonM />
-          {productsUser.data &&
-            productsUser.data.map((product) => (
-              <CardProdukM key={product.id} product={product} />
-            ))}
-        </>
-      ) : (
+
         <>
           <Grid
             item
             lg={1.8}
             mb={2}
-            gap={3}
+            gap={{xs:1,md:3}}
             sx={{ display: "flex", flexWrap: "wrap" }}
+            width={"100%"}
           >
-            <AddButton />
+            <Grid
+              item
+              lg={1.8}
+              mb={2}
+              sx={{ display: "flex",width: { 
+                xs : "165px",
+                md : "200px"
+              } }}
+            >
+              <AddButton />
+            </Grid>
 
             {productsUser.data &&
-              productsUser.data.map((product) => (
-                <CardProduk key={product.id} product={product} />
+              productsUser?.data.map((product) => (
+                <Grid
+                  item
+                  lg={1.8}
+                  mb={2}
+                  key={product.id}
+                  sx={{ display: "flex",width: { 
+                    xs : "165px",
+                    md : "200px"
+                  } }}
+                >
+                 <CardProduk key={product.id} product={product} />
+                </Grid>
               ))}
           </Grid>
         </>
-      )}
-    </>
   );
 };
 

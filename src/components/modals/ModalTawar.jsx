@@ -5,6 +5,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductItem } from "../../redux/product";
 import { useParams } from "react-router-dom";
+import { createTransaction } from "../../redux/transaction";
 
 const style = {
   position: "absolute",
@@ -18,15 +19,23 @@ const style = {
   p: 4,
 };
 
-const ModalTawar = ({ setModal, setSubmit }) => {
+
+const ModalTawar = ({ setModal, setSubmit,detail }) => {
+  const [price, setPrice] = React.useState(0);
+  const dispatch = useDispatch();
+  const transactions = useSelector((state) => state.transaction.transaction);
+
+  console.log(transactions)
+
   const handelSubmit = () => {
+    dispatch(createTransaction({productId : detail.data.id, priceNegotiate: price}));
     setSubmit(true);
     setModal(false);
   };
 
   const { id } = useParams();
-  const detail = useSelector((state) => state.product.productsDetail);
-  const dispatch = useDispatch();
+  
+  console.log(detail);
 
   useEffect(() => {
     dispatch(fetchProductItem(id));
@@ -67,7 +76,7 @@ const ModalTawar = ({ setModal, setSubmit }) => {
               display="flex"
               component="img"
               alt="camera"
-              src={`https://scnd-appr-beta.herokuapp.com/${detail.data?.product_pictures[0].picture}`}
+              src={`${detail.data?.product_image}`}
               borderRadius="16px"
               justifyContent="center"
               alignItems="center"
@@ -77,10 +86,10 @@ const ModalTawar = ({ setModal, setSubmit }) => {
 
             <Box alignItems="center" flexWrap="wrap" borderRadius="16px">
               <Typography variant="subtitle1" mb={1} mt={3}>
-                {detail.data?.product}
+                {detail.data?.product_name}
               </Typography>
               <Typography variant="subtitle2">
-                Rp. {detail.data?.price.toLocaleString("id-ID")}
+                Rp. {detail.data?.product_price.toLocaleString("id-ID")}
               </Typography>
             </Box>
           </Box>
@@ -92,6 +101,7 @@ const ModalTawar = ({ setModal, setSubmit }) => {
             id="outlined-basic"
             placeholder="Rp 0,00"
             variant="outlined"
+            onChange={(e)=>setPrice(e.target.value)}
           />
           <Button
             onClick={handelSubmit}

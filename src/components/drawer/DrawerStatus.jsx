@@ -18,8 +18,11 @@ import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ButtonClick from "../global/ButtonClick";
+import { useDispatch } from "react-redux";
 import Disabledbutton from "../global/Disabledbutton";
 import CloseIcon from "@mui/icons-material/Close";
+import { updateTransaction } from "../../redux/transaction";
+import { updateProduct } from "../../redux/product";
 
 const drawerBleeding = 16;
 
@@ -45,24 +48,37 @@ const Puller = styled(Box)(({ theme }) => ({
   left: "calc(50% - 30px)",
 }));
 
-const DrawerStatus = (props, { setDrawer }) => {
-  const [open, setOpen] = React.useState(false);
-  const [openAlert, setOpenAlert] = React.useState(false);
+const DrawerStatus = ({window, setStatus,product,transaction,setOpen,open }) => {
+  const [openAlert, setOpenAlert] = React.useState(open);
   const [statusValue, setstatusValue] = useState("");
+  const dispatch = useDispatch()
   const handleChangestatusValue = (event) => {
     setstatusValue(event.target.value);
   };
-  console.log(statusValue);
 
   const handleClickOpenAlert = () => {
     setOpenAlert(true);
   };
 
-  const { window } = props;
-
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+
+  const updateStatus = () => {
+    console.log(transaction)
+    let transactionStatus = statusValue === "berhasil" ? "sold" : "rejected"
+    dispatch(updateTransaction({
+      id : transaction.id,
+      transactionStatus : transactionStatus
+    }))
+    if(transactionStatus === "sold")
+    dispatch(updateProduct({
+      id: transaction.product_id,
+      data: {
+        productStatus : "sold"
+      }
+    }))
+  }
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -199,7 +215,7 @@ const DrawerStatus = (props, { setDrawer }) => {
             </FormControl>
 
             {/* Button */}
-            <Box width={"100%"} onClick={toggleDrawer(false)}>
+            <Box width={"100%"} onClick={statusValue !== "" ? ()=>{toggleDrawer(false);updateStatus()}:undefined}>
               {statusValue === "" ? (
                 <Disabledbutton
                   title={

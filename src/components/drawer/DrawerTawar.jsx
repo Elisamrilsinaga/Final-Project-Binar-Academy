@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
@@ -6,6 +6,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import FormInput from "../global/FormInput";
+import { useDispatch } from "react-redux";
+import { fetchProductItem } from "../../redux/product";
+import { useParams } from "react-router-dom";
+import { createTransaction } from "../../redux/transaction";
+
 
 const drawerBleeding = 20;
 
@@ -31,19 +36,30 @@ const Puller = styled(Box)(({ theme }) => ({
   left: "calc(50% - 30px)",
 }));
 
-const DrawerTawar = (props) => {
-  const [open, setOpen] = React.useState(false);
+const DrawerTawar = ({ setDrawer, setSubmit,detail }) => {
+  const [open, setOpen] = React.useState(true);
   const [price, setPrice] = React.useState("");
-  const { window } = props;
-  const { setDrawer } = props;
-
+  // console.log(detail)
+  
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
-    setDrawer(true);
+    setDrawer(newOpen);
+    console.log(newOpen)
+  };
+  const handelSubmit = () => {
+    dispatch(createTransaction({productId : detail.data.id, priceNegotiate: price}));
+    setOpen(false);
+    setSubmit(true);
   };
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProductItem(id));
+  }, [dispatch, id]);
+  // useEffect(() => {
+  //   toggleDrawer(true)
+  // }, []);
 
   return (
     <Root>
@@ -51,21 +67,22 @@ const DrawerTawar = (props) => {
       <Global
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
-            height: `calc(50% - ${drawerBleeding}px)`,
+            height: `calc(60%)`,
             overflow: "visible",
           },
         }}
       />
       <SwipeableDrawer
-        container={container}
+        // container={container}
         anchor="bottom"
         open={open}
+        // onClose={toggleDrawer(false)}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
         swipeAreaWidth={drawerBleeding}
         disableSwipeToOpen={false}
         ModalProps={{
-          keepMounted: true,
+          keepMounted: false,
         }}
       >
         <StyledBox
@@ -101,7 +118,7 @@ const DrawerTawar = (props) => {
             borderRadius="16px"
             backgroundColor="white"
             boxShadow="0px 0px 10px rgba(0, 0, 0, 0.15)"
-            width="22rem"
+            width="100%"
             mb={4}
             mt={2}
           >
@@ -109,12 +126,12 @@ const DrawerTawar = (props) => {
               display="flex"
               component="img"
               alt="camera"
-              src="/images/jam1.png"
+              src={`${detail.data?.product_image}`}
               borderRadius="16px"
               justifyContent="center"
               alignItems="center"
               width="6rem"
-              margin={2}
+              // margin={2}
             />
             <Box
               display="flex"
@@ -122,13 +139,13 @@ const DrawerTawar = (props) => {
               flexWrap="wrap"
               borderRadius="16px"
             >
-              Jam Tangan Caslo Rp.250.000
+              {detail.data?.product_name} <br></br> Rp. {detail.data?.product_price.toLocaleString("id-ID")}
             </Box>
           </Box>
           <Box
-            width={"22rem"}
+            width={"100%"}
             sx={{
-              margin: "2 auto",
+              margin: "0 auto",
             }}
           >
             <FormInput
@@ -146,9 +163,10 @@ const DrawerTawar = (props) => {
               color: "white",
               backgroundColor: "#7126B5",
               height: "3rem",
-              width: "22rem",
+              width: "100%",
               textTransform: "none",
             }}
+            onClick={handelSubmit}
             variant="contained"
           >
             Kirim

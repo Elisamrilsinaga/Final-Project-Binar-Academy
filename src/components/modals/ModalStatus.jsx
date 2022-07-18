@@ -14,16 +14,19 @@ import {
   Collapse,
   Alert,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
 import ButtonClick from "../global/ButtonClick";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Disabledbutton from "../global/Disabledbutton";
+import { updateTransaction } from "../../redux/transaction";
+import { updateProduct } from "../../redux/product";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(4),
-    width: 360,
+    maxWidth: 360,
   },
   "& .MuiDialogActions-root": {
     padding: theme.spacing(2),
@@ -59,10 +62,10 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const ModalStatus = () => {
-  const [open, setOpen] = React.useState(false);
+const ModalStatus = ({ setStatus,product,transaction,setOpen,open }) => {
   const [openAlert, setOpenAlert] = React.useState(false);
   const [statusValue, setstatusValue] = useState("");
+  const dispatch = useDispatch()
   const handleChangestatusValue = (event) => {
     setstatusValue(event.target.value);
   };
@@ -80,6 +83,22 @@ const ModalStatus = () => {
     setOpen(false);
   };
 
+  const updateStatus = () => {
+    console.log(transaction)
+    let transactionStatus = statusValue === "berhasil" ? "sold" : "rejected"
+    dispatch(updateTransaction({
+      id : transaction.id,
+      transactionStatus : transactionStatus
+    }))
+    if(transactionStatus === "sold")
+    dispatch(updateProduct({
+      id: transaction.product_id,
+      data: {
+        productStatus : "sold"
+      }
+    }))
+  }
+
   return (
     <Box
       display={"flex"}
@@ -96,11 +115,11 @@ const ModalStatus = () => {
         justifyContent="flex-end"
         mb={3}
       >
-        <Box width={"20%"} mr={2}>
+        <Box width={{xs: "100%", md:"20%"}} mr={2}>
           <ButtonClick onClick={handleClickOpen} title={"Status"} />
         </Box>
 
-        <Box width={"20%"}>
+        <Box >
           <ButtonClick
             onClick={""}
             title={
@@ -197,6 +216,7 @@ const ModalStatus = () => {
                 onClick={() => {
                   handleClose(false);
                   handleClickOpenAlert(true);
+                  updateStatus();
                 }}
                 title={
                   <Box
@@ -236,7 +256,7 @@ const ModalStatus = () => {
             top: "-1rem",
             left: "14rem",
             height: 52,
-            width: 500,
+            // maxWidth: 500,
             borderRadius: "12px",
             position: "absolute",
             alignItems: "center",

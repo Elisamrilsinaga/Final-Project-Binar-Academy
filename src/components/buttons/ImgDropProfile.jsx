@@ -1,12 +1,9 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { UploadImageProfile } from '../../redux/profile';
+import {  useSelector } from "react-redux";
 
 const ImgDropProfile = ({ data, setData }) => {
-    const uid = localStorage.getItem("uid");
     const path = useSelector(state => state.profile.pathImg);
-    const dispatch = useDispatch();
 
     const Upload = () => {
         const fileInput = document.createElement('input');
@@ -16,9 +13,7 @@ const ImgDropProfile = ({ data, setData }) => {
             const file = e.target.files[0];
             const formData = new FormData();
             formData.append('profile_picture', file);
-            formData.append('uid', uid);
-            dispatch(UploadImageProfile(formData));
-            setData(path);
+            setData(file);
         }
         fileInput.click();
     }
@@ -36,8 +31,8 @@ const ImgDropProfile = ({ data, setData }) => {
             < Box
                 component="img"
                 alt="camera"
-                src={path ? `https://scnd-appr-beta.herokuapp.com/${path}` : data.profile_picture ? `https://scnd-appr-beta.herokuapp.com/${data.profile_picture}` : `/images/cameraInfo.png`}
-                setData={path ? path : data.profile_picture ? data.profile_picture : `/images/cameraInfo.png`}
+                src={path ? `${path}` : data.user_image ? `${data.user_image}` : `/images/cameraInfo.png`}
+                setData={path ? path : data.user_image ? data.user_image : `/images/cameraInfo.png`}
                 sx={{
                     width: '100%',
                     height: '100%',
