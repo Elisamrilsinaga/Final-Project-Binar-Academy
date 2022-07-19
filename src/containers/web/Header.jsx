@@ -137,8 +137,8 @@ const Header = ({ active, title, }) => {
                     <Box display={{ xs : "none", md : 'flex'}} alignItems='center' position={"absolute"} justifySelf="start" left="8rem">
                         <Link onClick={()=>navigate("/")}>
                             <Box component='img'
-                                src='/images/logo.png'
-                                alt='logo'
+                                src='/images/Logo.png'
+                                alt='Logo'
                                 mr={2}
                             />
                         </Link>
