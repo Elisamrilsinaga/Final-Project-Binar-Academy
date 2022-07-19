@@ -9,6 +9,7 @@ import Diminati from "../containers/global/Diminati";
 import Terjual from "../containers/global/Terjual";
 
 const DaftarJual = () => {
+    
     const [page, setPage] = React.useState('Semua Produk');
 
     return (

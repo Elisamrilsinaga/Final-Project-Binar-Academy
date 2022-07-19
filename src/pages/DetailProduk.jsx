@@ -38,10 +38,9 @@ const DetailProduk = () => {
     console.log(checkNotif,transactions[found])
     if(checkNotif === -1 && transactions[found]?.user_id && transactions[found]?.product_id && transactions[found]?.id){
       let data = {
-        seller: transactions[found].user_id,
+        receiver: transactions[found].user_id,
         productId: transactions[found].product_id,
         transactionId: transactions[found].id,
-        title: "Penawaran",
         message: "Penawaran Product"
       }
       console.log(data)
@@ -158,7 +157,7 @@ const DetailProduk = () => {
                     {detail.data?.User?.user_name === profile?.user_name ? (
                       <>
                         <ButtonClick title="Terbitkan" primary />
-                        <ButtonClick title="Edit" />
+                        <ButtonClick onClick={()=>navigate(`/update/${id}`)} title="Edit" />
                       </>
                     ) : wait ? (
                       <>

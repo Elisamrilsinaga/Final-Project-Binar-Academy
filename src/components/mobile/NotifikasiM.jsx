@@ -38,7 +38,7 @@ const NotifikasiM = ({ setOpen,message }) => {
                         <Box>
                             <Box display={"flex"} justifyContent="space-between">
                                 <Typography variant="caption" color={"GrayText"} mb={1}>
-                                    Penawaran produk
+                                    {notif?.message}
                                 </Typography>
                                 {/* <Typography variant="caption" color={"GrayText"} mb={1}>
                                     20 Apr, 14:04

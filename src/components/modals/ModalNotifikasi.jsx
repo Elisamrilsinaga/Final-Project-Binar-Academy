@@ -31,7 +31,7 @@ const ModalNotifikasi = ({ message }) => {
                                 <Box>
                                     <Box display={"flex"} justifyContent="space-between" width={'300px'}>
                                         <Typography variant="caption" color={"GrayText"} mb={1} fontSize={'.7rem'}>
-                                            Penawaran produk
+                                        {notif?.message}
                                         </Typography>
                                         {/* <Typography variant="caption" color={"GrayText"} mb={1} fontSize={'.7rem'}>
                                             20 Apr, 14:04

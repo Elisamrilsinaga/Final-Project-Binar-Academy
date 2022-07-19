@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useDispatch } from "react-redux";
 import { updateTransaction } from "../../redux/transaction";
+import { CreateNotif } from "../../redux/notif";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -62,6 +63,14 @@ const ModalproductMatch = ({ setStatus,product,transaction,setOpen,open }) => {
       id: transaction.id,
       transactionStatus: "rejected"
     }))
+    let data = {
+      receiver: transaction.user_id,
+      productId: transaction.product_id,
+      transactionId: transaction.id,
+      message: "Penawaran ditolak"
+    }
+    console.log(data)
+    dispatch(CreateNotif(data));
     setStatus("rejected");
     setOpen(false);
   }
@@ -73,6 +82,14 @@ const ModalproductMatch = ({ setStatus,product,transaction,setOpen,open }) => {
       id: transaction.id,
       transactionStatus: "accepted"
     }))
+    let data = {
+      receiver: transaction.user_id,
+      productId: transaction.product_id,
+      transactionId: transaction.id,
+      message: "Penawaran diterima"
+    }
+    console.log(data)
+    dispatch(CreateNotif(data));
     setStatus("accepted");
     setOpen(false);
   };

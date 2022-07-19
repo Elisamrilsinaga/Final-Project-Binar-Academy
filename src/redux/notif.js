@@ -32,7 +32,7 @@ export const GetAllNotif = createAsyncThunk(
 export const CreateNotif = createAsyncThunk(
     'notif/CreateNotif',
     async (data ) => {
-        console.log(data)
+        
         const res = await apisecondhand.post('/notif', data, {
             headers: {
                 'accept': 'application/json',
@@ -81,6 +81,7 @@ const notifSlice = createSlice({
             return { ...state, loading: true }
         },
         [CreateNotif.fulfilled]: (state,action) => {
+            console.log(action.payload)
             return { ...state, loading: false }
         },
         [CreateNotif.rejected]: (state, action) => {

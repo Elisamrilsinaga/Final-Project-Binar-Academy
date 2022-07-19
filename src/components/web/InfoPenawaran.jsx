@@ -128,7 +128,7 @@ const InfoPenawaran = () => {
         }
         { isMobile && 
           <Box display={{xs: "block", md: "none"}}>
-              {terima === "waiting" ?
+              {terima === "waiting"  ?
                 <DrawerProductMatch open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/> :
                 terima === "accepted" ?
                 <DrawerStatus open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/> : 

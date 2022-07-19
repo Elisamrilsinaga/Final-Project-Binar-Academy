@@ -8,7 +8,7 @@ const InfoPenjual = ({penjual}) => {
   const prof =  useSelector((state) => state.profile.profile.data);
   const [profile,setProfile] = useState(penjual ? penjual :  prof);
   const dispatch = useDispatch()
-  console.log(profile)
+  // console.log(profile)
   React.useEffect(() => {
     dispatch(GetProfile());
   }, [dispatch, ]);

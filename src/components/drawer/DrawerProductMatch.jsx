@@ -9,6 +9,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useDispatch } from "react-redux";
 import { updateTransaction } from "../../redux/transaction";
+import { CreateNotif } from "../../redux/notif";
 
 const drawerBleeding = 20;
 
@@ -46,6 +47,14 @@ const DrawerProductMatch = (props) => {
       id: transaction.id,
       transactionStatus: "rejected"
     }))
+    let data = {
+      receiver: transaction.user_id,
+      productId: transaction.product_id,
+      transactionId: transaction.id,
+      message: "Penawaran diterima"
+    }
+    console.log(data)
+    dispatch(CreateNotif(data));
     setStatus("rejected");
     setOpen(false);
   }
@@ -57,6 +66,14 @@ const DrawerProductMatch = (props) => {
       id: transaction.id,
       transactionStatus: "accepted"
     }))
+    let data = {
+      receiver: transaction.user_id,
+      productId: transaction.product_id,
+      transactionId: transaction.id,
+      message: "Penawaran diterima"
+    }
+    console.log(data)
+    dispatch(CreateNotif(data));
     setStatus("accepted");
     setOpen(false);
   };

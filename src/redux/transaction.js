@@ -113,6 +113,7 @@ const TransactionSlice = createSlice({
     },
 
     [createTransaction.pending]: (state, action) => {
+      console.log(action.payload)
       return { ...state, loading: true, error: null };
     },
     [createTransaction.fulfilled]: (state, action) => {

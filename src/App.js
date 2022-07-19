@@ -17,6 +17,7 @@ import AddProduk from "./pages/AddProduk";
 import DaftarJual from "./pages/DaftarJual";
 import Profile from "./pages/Profile";
 import { useEffect } from "react";
+import UpdateProduk from "./pages/UpdateProduk";
 // import AuthProtect from "./AuthProtect";
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/register" element={islogin ? <Navigate to="/daftar-jual" /> : <Register />} />
             <Route path="/profile" element={islogin ? <Profile /> : <Navigate to="/login" />} />
 
+            <Route path="/update/:id" element={islogin ? <UpdateProduk /> : <Navigate to="/login" />} />
             <Route path="/daftar-jual">
               <Route index element={islogin ? <DaftarJual /> : <Navigate to="/login" />} />
               <Route path=":id" element={islogin ? <DetailProduk /> : <Navigate to="/login" />} />

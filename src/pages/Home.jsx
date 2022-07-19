@@ -8,6 +8,7 @@ import SetKategori from "../containers/global/SetKategori";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/product";
 import {useLocation} from "react-router-dom"
+import { GetProfile } from "../redux/profile";
 
 function useQuery(){
   const {search} = useLocation()
@@ -15,6 +16,7 @@ function useQuery(){
 }
 
 const Home = () => {
+  const profile = useSelector((state) => state.profile.profile.data);
   const query = useQuery()
   const [kategory, setKategory] = useState();
   const products = useSelector((state) => state.product.products);
@@ -25,6 +27,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(GetProfile());
     let data = category && category !== 'Semua' ? {category : category} : {search : search}
     dispatch(fetchProducts({data, category}));
   }, [dispatch,search,category]);
@@ -53,7 +56,7 @@ const Home = () => {
             xs : 0,
             md : "8rem"
           }} mt={4} display="flex" justifyContent={"center"} alignItems="center" sx={{ maxWidth: "100vw"}}>
-            <ButtonJualHome sx={{position:"absolute"}}/>
+            {profile?.user_image && <ButtonJualHome sx={{position:"absolute"}}/>}
             <Box display="flex" flexWrap="wrap" sx={{ width: "100%" }}>
               <Box display="flex" alignItems="center" justifyContent="center" flexWrap="wrap" sx={{ width: "100%" }} mx={{
                 xs : 2,

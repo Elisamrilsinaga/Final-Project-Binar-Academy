@@ -51,9 +51,9 @@ export const fetchProductItem = createAsyncThunk(
 
 export const fetchProductsUser = createAsyncThunk(
   "products/fetchProductsUser",
-  async (profile) => {
+  async () => {
     try{
-      const response = await apisecondhand.get('/products?limit=1000',{
+      const response = await apisecondhand.get('/products/seller?limit=100',{
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token"),
         }
@@ -86,7 +86,7 @@ export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async ({data,id}) => {
     console.log(data,id)
-    const response = await apisecondhand.post(`/product/${id}`,data, {
+    const response = await apisecondhand.put(`/product/${id}`,data, {
       headers: {
         "accept": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -99,7 +99,7 @@ export const updateProduct = createAsyncThunk(
 const initialState = {
   products: [],
   productsDetail: [],
-  productsUser: {},
+  productsUser: [],
   user: {},
   img: [],
   loading: false,
@@ -167,7 +167,6 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [fetchProductsUser.fulfilled]: (state, action) => {
-      console.log(action);
       return { ...state, loading: false, productsUser: action.payload };
     },
     [fetchProductsUser.rejected]: (state, action) => {
@@ -191,6 +190,7 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [updateProduct.fulfilled]: (state, action) => {
+      console.log(action.payload)
       return { ...state, loading: false, post: [action.payload] };
     },
     [updateProduct.rejected]: (state, action) => {

@@ -7,11 +7,10 @@ import { fetchProductsUser } from "../../redux/product";
 import { GetProfile } from "../../redux/profile";
 
 const SemuaProduk = () => {
-  const profile = useSelector((state) => state.profile.profile.data);
   const productsUser = useSelector((state) => state.product.productsUser);
   
   const dispatch = useDispatch();
-  console.log(productsUser,profile)
+  
   useEffect(() => {
     dispatch(GetProfile());
     dispatch(fetchProductsUser());
