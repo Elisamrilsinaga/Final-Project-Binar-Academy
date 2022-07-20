@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import InfoProduk from "../global/InfoProduk";
 
 const CardProduk = ({ product }) => {
+  // console.log(product.Image_Products[0].link)
   let navigate = useNavigate(); 
   return (
     <Box
@@ -25,7 +26,7 @@ const CardProduk = ({ product }) => {
       {/* <Box> */}
         <Box
           component={"img"}
-          src={ product.product_image}
+          src={ product.Image_Products[0].link }
           image
           width={"100%"}
           height={"10rem"}

@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 const ImageSlider = () => {
   const { id } = useParams();
   const img = useSelector((state) => state.product.productsDetail);
+  // console.log(img)
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -34,16 +35,16 @@ const ImageSlider = () => {
       className="mySwiper"
       // height={{xs:"300px", md:"400px"}}
     >
-      {/* {img && img.map((image) => {
-        return ( */}
-          <SwiperSlide key={img.data && img.data.id }>
+      {img.data && img.data?.Image_Products?.map((image,i) => {
+        return (
+          <SwiperSlide key={i}>
             <img
-              src={img.data && img.data.product_image}
+              src={image.link}
               alt="gambar product"
             />
           </SwiperSlide>
-        {/* );
-      })} */}
+         );
+      })} 
     </Swiper>
   );
 };

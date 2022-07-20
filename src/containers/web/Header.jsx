@@ -26,7 +26,7 @@ const Header = ({ active, title, }) => {
     }
     const dispatch = useDispatch()
     const notifs = useSelector((state) => state.notif.notifs.data);
-    console.log(notifs)
+    // console.log(notifs)
     useEffect(() => {
         dispatch(GetAllNotif());
     }, [dispatch]);
