@@ -4,7 +4,7 @@ import apisecondhand from "./apis/apisecondhand";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (param) => {
-    const link = param.category ? "/products/filter?limit=12" : "/products/search?limit=12"
+    const link = param.category ? "/products/filter?limit=20page=1" : "/products/search?limit=20&page=1"
     try{
       const response = await apisecondhand.post(link,param.data,{
         headers: {
@@ -23,7 +23,7 @@ export const fetchCategories = createAsyncThunk(
   "products/fetchCategories",
   async () => {
     try{
-      const response = await apisecondhand.get('/products?limit=1000',{
+      const response = await apisecondhand.get('/products?limit=100&page=1',{
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token"),
         }
@@ -179,7 +179,7 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [fetchCreateProduct.fulfilled]: (state, action) => {
-      console.log(action.payload)
+      // console.log(action.payload)
       return { ...state, loading: false, post: [action.payload] };
     },
     [fetchCreateProduct.rejected]: (state, action) => {
@@ -190,7 +190,7 @@ const productsSlice = createSlice({
       return { ...state, loading: true, error: null };
     },
     [updateProduct.fulfilled]: (state, action) => {
-      console.log(action.payload)
+      // console.log(action.payload)
       return { ...state, loading: false, post: [action.payload] };
     },
     [updateProduct.rejected]: (state, action) => {

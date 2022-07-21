@@ -76,7 +76,7 @@ const authSlice = createSlice({
             return { ...state, loading: false, status: false }
         },
         [AuthRegister.rejected]: (state, action) => {
-            console.log(action)
+            // console.log(action)
             return { ...state, loading: false, error: action.error.message, status: false }
         },
     }
