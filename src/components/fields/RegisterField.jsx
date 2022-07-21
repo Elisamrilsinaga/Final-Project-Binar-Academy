@@ -24,7 +24,8 @@ const RegisterField = () => {
       if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
         dispatch(setError("Email tidak valid"));
       } else
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+        if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)) {
+        // if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
           dispatch(setError("Password tidak valid"));
         } else {
           const data = {
@@ -54,7 +55,8 @@ const RegisterField = () => {
         </Box>
         <FormInput label="Nama" value={name} setValue={setName} type="text" placeholder="Contoh: John Doe" />
         <FormInput label="Email" value={email} setValue={setEmail} type="text" placeholder="Contoh: JohnDoe@gmail.com" />
-        <FormInput label="Password" value={password} setValue={setPassword} type="password" placeholder="Maximal 8 karakter" />
+        {/* <FormInput label="Password" value={password} setValue={setPassword} type="password" placeholder="Maximal 8 karakter" /> */}
+        <FormInput label="Password" value={password} setValue={setPassword} type="password" placeholder="Minimal 6 karakter dan angka" />
 
         <ButtonClick title="Daftar" primary onClick={handleregister} />
       </Box >

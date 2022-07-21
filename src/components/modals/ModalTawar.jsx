@@ -20,21 +20,39 @@ const style = {
 };
 
 
-const ModalTawar = ({ setModal, setSubmit,detail }) => {
+const ModalTawar = ({ setModal, setSubmit, detail }) => {
   const [price, setPrice] = React.useState(0);
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transaction.transaction);
 
   console.log(transactions)
 
+  // send notif to seller (buat ngirim dengan socket)
   const handelSubmit = () => {
-    dispatch(createTransaction({productId : detail.data.id, priceNegotiate: price}));
+    // const handelSubmit = async() => {
+    // if (currentMessage !== "") {
+    //   const messageData = {
+    //     room: room,
+    //     author: username,
+    //     message: currentMessage,
+    //     time:
+    //       new Date(Date.now()).getHours() +
+    //       ":" +
+    //       new Date(Date.now()).getMinutes(),
+    //   };
+
+    //   await socket.emit("send_notif", messageData); //emit untuk mengirim 
+    //   setMessageList((list) => [...list, messageData]);
+    //   setCurrentMessage("");
+    // }
+
+    dispatch(createTransaction({ productId: detail.data.id, priceNegotiate: price }));
     setSubmit(true);
     setModal(false);
   };
 
   const { id } = useParams();
-  
+
   console.log(detail);
 
   useEffect(() => {
@@ -76,7 +94,7 @@ const ModalTawar = ({ setModal, setSubmit,detail }) => {
               display="flex"
               component="img"
               alt="camera"
-              src={`${detail.data?.product_image}`}
+              src={`${detail.data?.Image_Products[0].link}`}
               borderRadius="16px"
               justifyContent="center"
               alignItems="center"
@@ -101,7 +119,7 @@ const ModalTawar = ({ setModal, setSubmit,detail }) => {
             id="outlined-basic"
             placeholder="Rp 0,00"
             variant="outlined"
-            onChange={(e)=>setPrice(e.target.value)}
+            onChange={(e) => setPrice(e.target.value)}
           />
           <Button
             onClick={handelSubmit}

@@ -91,6 +91,7 @@ const Header = ({ active, title, }) => {
                                     <ListIcon color={active ? 'primary' : 'textPrimary'} />
                                 </Link>
                                 {
+                                    //cek notif
                                     notifs?.length > 0 ? (
                                         <Box component={'button'} onClick={notifikasiButton} sx={{
                                             cursor: 'pointer',

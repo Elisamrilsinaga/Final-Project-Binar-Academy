@@ -24,7 +24,7 @@ const InfoPenawaran = () => {
   const detail = transactions?.data  && transactions.data.find(x=> x.id ===  state?.transaction.id && x.user_id ===  state?.transaction.user_id)
   
   const [terima, setTerima] = React.useState(false);
-  console.log(detail)
+  // console.log(detail)
 
   useEffect(() => {
     dispatch(sellerTransaction({id:state?.transaction.product_id}));

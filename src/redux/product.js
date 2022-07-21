@@ -53,7 +53,25 @@ export const fetchProductsUser = createAsyncThunk(
   "products/fetchProductsUser",
   async () => {
     try{
-      const response = await apisecondhand.get('/products/seller?limit=100',{
+      const response = await apisecondhand.get('/products/seller',{
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        }
+      });
+      return response.data;
+    }
+    catch(err){
+      console.log(err)
+      return {}
+    }
+  }
+);
+
+export const fetchProductsSoldOut = createAsyncThunk(
+  "products/fetchProductsSoldOut",
+  async () => {
+    try{
+      const response = await apisecondhand.get('/products/soldout',{
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token"),
         }
@@ -170,6 +188,18 @@ const productsSlice = createSlice({
       return { ...state, loading: false, productsUser: action.payload };
     },
     [fetchProductsUser.rejected]: (state, action) => {
+      // console.log("rejected");
+      return { ...state, loading: false, error: action.error };
+    },
+    // ==================== GET BY USER ==============================
+    [fetchProductsSoldOut.pending]: (state, action) => {
+      // console.log("pending");
+      return { ...state, loading: true, error: null };
+    },
+    [fetchProductsSoldOut.fulfilled]: (state, action) => {
+      return { ...state, loading: false, productsUser: action.payload };
+    },
+    [fetchProductsSoldOut.rejected]: (state, action) => {
       // console.log("rejected");
       return { ...state, loading: false, error: action.error };
     },

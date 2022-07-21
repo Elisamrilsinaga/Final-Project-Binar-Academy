@@ -1,7 +1,7 @@
 import CardProduk from '../web/CardProduk'
 import NoData from './NoData'
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, fetchProducts, fetchProductsUser } from "../../redux/product";
+import { fetchCategories, fetchProducts, fetchProductsUser, fetchProductsSoldOut } from "../../redux/product";
 import { useEffect } from 'react';
 import { Grid } from '@mui/material';
 
@@ -11,7 +11,7 @@ const Terjual = () => {
     console.log(sold)
     const dispatch = useDispatch();
     useEffect(() => {
-      dispatch(fetchProductsUser());
+      dispatch(fetchProductsSoldOut());
     }, []);
   
     return (
