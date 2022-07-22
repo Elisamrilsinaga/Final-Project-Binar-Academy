@@ -23,7 +23,7 @@ const InfoPenawaran = () => {
   const transactions = useSelector((state) => state.transaction.sellerTransaction);
   const detail = transactions?.data  && transactions.data.find(x=> x.id ===  state?.transaction.id && x.user_id ===  state?.transaction.user_id)
   // const detail = transactions?.post  && transactions.post.find(x=> x.id ===  state?.id && x.user_id ===  state?.transaction.user_id)
-  console.log(transactions)
+  // console.log(transactions)
   // console.log(detail)
   const [terima, setTerima] = React.useState(false);
   // console.log(detail)
@@ -72,7 +72,7 @@ const InfoPenawaran = () => {
             />
           </Button>
 
-          <ContainersBox data={<InfoPenjual penjual={detail?.User} />} />
+          <ContainersBox data={<InfoPenjual penjual={transactions?.post?.User} />} />
         </Box>
 
         <Typography variant="h6" mb={1}>

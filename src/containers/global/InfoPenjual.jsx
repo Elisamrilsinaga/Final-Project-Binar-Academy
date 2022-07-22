@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetProfile } from "../../redux/profile";
 
 const InfoPenjual = ({penjual}) => {
+  // console.log(penjual)
   const isMobile = useMediaQuery("(max-width:600px)");
   const prof =  useSelector((state) => state.profile.profile.data);
   const [profile,setProfile] = useState(penjual ? penjual :  prof);
@@ -35,7 +36,7 @@ const InfoPenjual = ({penjual}) => {
           color="textSecondary"
           fontSize={isMobile ? "0.8rem" : "1rem"}
         >
-          {profile?.city}
+          {penjual?.city}
         </Typography>
       </Box>
     </Box>

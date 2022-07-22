@@ -24,7 +24,7 @@ const NotifikasiM = ({ setOpen,message }) => {
                     <Box
                         component={"img"}
                         src={
-                            notif?.User?.user_image
+                            notif.Product?.Image_Products[0].link
                         }
                         sx={{
                             width: "4rem",
@@ -48,7 +48,7 @@ const NotifikasiM = ({ setOpen,message }) => {
                                 {notif?.Product?.product_name}
                             </Typography>
                             <Typography variant="subtitle1" mb={1}>
-                                Ditawar Rp {notif?.User_Transaction?.price_negotiate}
+                                Ditawar Rp {notif?.price_negotiate}
                             </Typography>
                         </Box>
                     </Box>
