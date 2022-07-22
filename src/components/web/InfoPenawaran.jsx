@@ -18,16 +18,18 @@ const InfoPenawaran = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
-  console.log(state?.transaction.product_id)
+  // console.log(state?.transaction.product_id)
 
   const transactions = useSelector((state) => state.transaction.sellerTransaction);
   const detail = transactions?.data  && transactions.data.find(x=> x.id ===  state?.transaction.id && x.user_id ===  state?.transaction.user_id)
-  
+  // const detail = transactions?.post  && transactions.post.find(x=> x.id ===  state?.id && x.user_id ===  state?.transaction.user_id)
+  console.log(transactions)
+  // console.log(detail)
   const [terima, setTerima] = React.useState(false);
   // console.log(detail)
 
   useEffect(() => {
-    dispatch(sellerTransaction({id:state?.transaction.product_id}));
+    dispatch(sellerTransaction({id:state?.transaction.id}));
   }, [dispatch, state, openModal]);
 
   useEffect(()=> {
@@ -80,7 +82,7 @@ const InfoPenawaran = () => {
           <Box
             component={"img"}
             src={
-              detail?.Product?.product_image
+              transactions?.post?.Product?.Image_Products[0].link
             }
             sx={{
               width: "4rem",
@@ -102,13 +104,13 @@ const InfoPenawaran = () => {
                 </Typography> */}
               </Box>
               <Typography variant="subtitle1" mb={1}>
-                {detail?.Product?.product_name}
+                {transactions?.post?.Product?.product_name}
               </Typography>
               <Typography variant="subtitle2" mb={1}>
-                Rp. {detail?.Product?.product_price.toLocaleString("id-ID")}
+                Rp. {transactions?.post?.Product?.product_price.toLocaleString("id-ID")}
               </Typography>
               <Typography variant="subtitle1" mb={1}>
-                Ditawar Rp {detail?.price_negotiate.toLocaleString("id-ID")}
+                Ditawar Rp {transactions?.post?.price_negotiate.toLocaleString("id-ID")}
               </Typography>
             </Box>
           </Box>
@@ -117,7 +119,7 @@ const InfoPenawaran = () => {
         { !isMobile && 
         <Box display={{xs: "none", md: "block"}}>
             {terima === "waiting" ?
-              <ModalproductMatch open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/> :
+              <ModalproductMatch open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={transactions?.post?.product} transaction={detail}/> :
               terima === "accepted" ?
               <ModalStatus open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/>  :
               <Typography variant="caption" color={"GrayText"} mb={1}>

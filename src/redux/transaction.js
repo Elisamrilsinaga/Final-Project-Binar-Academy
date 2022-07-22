@@ -56,8 +56,8 @@ export const updateTransaction = createAsyncThunk(
 export const sellerTransaction = createAsyncThunk(
   "transaction/sellerTransaction",
   async ({id}) => {
-    console.log(id)
-    const response = await apisecondhand.get(`/transaction/seller/${id}`, {
+    // console.log(id)
+    const response = await apisecondhand.get(`/transaction/${id}`, {
       headers: {
         accept: "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),

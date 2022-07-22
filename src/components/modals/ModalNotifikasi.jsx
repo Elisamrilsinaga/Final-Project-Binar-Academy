@@ -12,12 +12,12 @@ const ModalNotifikasi = ({ message }) => {
                 <ContainersBox shadow data={
                     <>
                     {
-                        message.map(notif => (
-                            <Box display={"flex"} mt={2} borderBottom="1px solid #E5E5E5" onClick={()=>navigate("/penawaran",{ state:{transaction: {...notif.User_Transaction, product_id: notif.Product.id, user_id : notif.User.id}} })}>
+                        message?.map((notif) => (
+                            <Box display={"flex"} mt={2} borderBottom="1px solid #E5E5E5" onClick={()=>navigate("/penawaran",{ state:{transaction: {...notif.User_Transaction, id:notif.id, product_id: notif.Product.id, user_id : notif.User.id}} })}>
                             <Box
                                 component={"img"}
                                 src={
-                                    notif.User.user_image
+                                    notif.Product.Image_Products[0].link
                                 }
                                 sx={{
                                     width: "4rem",
@@ -41,7 +41,7 @@ const ModalNotifikasi = ({ message }) => {
                                         {notif.Product.product_name}
                                     </Typography>
                                     <Typography variant="subtitle1" mb={1} fontSize={'.7rem'}>
-                                        Ditawar Rp {notif.User_Transaction.price_negotiate}
+                                        Ditawar Rp {notif.price_negotiate}
                                     </Typography>
                                 </Box>
                             </Box>

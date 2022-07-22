@@ -4,7 +4,7 @@ import apisecondhand from './apis/apisecondhand';
 export const GetNotif = createAsyncThunk(
     'notif/GetNotif',
     async (id) => {
-        const res = await apisecondhand.get(`/notif/${id}`, {
+        const res = await apisecondhand.get(`/transaction/${id}`, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -18,13 +18,13 @@ export const GetNotif = createAsyncThunk(
 export const GetAllNotif = createAsyncThunk(
     'notif/GetAllNotif',
     async () => {
-        const res = await apisecondhand.get(`/notifs`, {
+        const res = await apisecondhand.get(`/transaction`, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
-        
+        // console.log(res.data)
         return res.data;
     }
 );
@@ -33,7 +33,7 @@ export const CreateNotif = createAsyncThunk(
     'notif/CreateNotif',
     async (data ) => {
         
-        const res = await apisecondhand.post('/notif', data, {
+        const res = await apisecondhand.post('/transaction', data, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),

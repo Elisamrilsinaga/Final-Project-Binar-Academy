@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import InfoProduk from "../global/InfoProduk";
 
 const CardProduk = ({ product }) => {
-  console.log(product)
+  // console.log(product)
   let navigate = useNavigate(); 
   return (
     <Box
