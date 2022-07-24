@@ -9,27 +9,30 @@ import { fetchProductsUser } from "../../redux/product";
 const Diminati = () => {
   const [transaction, setTransaction] = useState([])
   const productsUser = useSelector((state) => state.product.productsUser);
-  
+
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if(!productsUser.data) return
     let data = []
     productsUser?.data.map((product) => (
       (async()=>{
-        const response = await apisecondhand.get(`/transaction/seller/${product?.id}`, {
+        const response = await apisecondhand.get(`/transaction`, {
           headers: {
             'Authorization': 'Bearer ' + localStorage.getItem("token"),
           },
         });
-        if(response?.data?.data.length > 0)
-        data.push(...response.data.data)
+        if(response?.data?.data.length > 0) {
+          // console.log(response)
+          response.data?.data.map((transaction) => {
+            if(transaction.transaction_status === "waiting") data.push(transaction)
+          })
+        }
         if(data.length > transaction.length)
         setTransaction(data)
-        
       })()
       ))
-    console.log(transaction)
+    // console.log(transaction)
   }, [productsUser]);
 
   useEffect(() => {

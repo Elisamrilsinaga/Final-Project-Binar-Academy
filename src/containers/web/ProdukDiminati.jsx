@@ -4,10 +4,9 @@ import { Typography, Link, Box } from "@mui/material";
 import apisecondhand from "../../redux/apis/apisecondhand";
 
 const ProdukDiminati = ({ productrans }) => {
-  let navigate = useNavigate(); 
-  
+  let navigate = useNavigate();
+
   const [detail,setDetail] = useState({});
-  console.log(productrans)
   useEffect(() => {
     (async()=>{
       const response = await apisecondhand.get(`/product/${productrans?.product_id}`, {
@@ -18,6 +17,7 @@ const ProdukDiminati = ({ productrans }) => {
       setDetail(response.data?.data)
     })()
   }, [productrans]);
+  console.log(detail)
 
   return (
     <Box
@@ -41,7 +41,7 @@ const ProdukDiminati = ({ productrans }) => {
           <Box
             component={"img"}
             src={
-              detail?.product_image
+              detail && detail.Image_Products && detail.Image_Products.length > 0 ? detail.Image_Products[0].link  : ""
             }
             sx={{
               width: "4rem",

@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Header = ({ active, title, }) => {
     const isMobile = useMediaQuery("(max-width:600px)");
-    let navigate = useNavigate(); 
+    let navigate = useNavigate();
     const islogin = localStorage.getItem("token")
     const [open, setOpen] = React.useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
@@ -51,7 +51,7 @@ const Header = ({ active, title, }) => {
                 <Box width={"100%"} component="header" display='flex' boxShadow={{
                     xs : "none",
                     md : '0px 0px 10px rgba(0, 0, 0, 0.15)'
-                }} backgroundColor={{ xs : "transparent", md : "white"}} 
+                }} backgroundColor={{ xs : "transparent", md : "white"}}
                 // mt={{xs : "10px", md : 0}}
                 mb={{xs : "-110px", md: 0}}
                 justifyContent='space-between' alignItems='center' height='80px' px={{
@@ -82,7 +82,7 @@ const Header = ({ active, title, }) => {
                     <Box display={{
                         xs : 'none',
                         md: "block",
-                        
+
                     }} >
                     {
                         islogin ? (
@@ -134,7 +134,7 @@ const Header = ({ active, title, }) => {
                 </Box >
             }
             {title &&
-                <Box component="header" justifyContent={"center"}   display='flex' boxShadow={{xs : "none", md: '0px 0px 10px rgba(0, 0, 0, 0.15)'}} alignItems='center' height='80px' >                    
+                <Box component="header" justifyContent={"center"}   display='flex' boxShadow={{xs : "none", md: '0px 0px 10px rgba(0, 0, 0, 0.15)'}} alignItems='center' height='80px' >
                     <Box display={{ xs : "none", md : 'flex'}} alignItems='center' position={"absolute"} justifySelf="start" left="8rem">
                         <Link onClick={()=>navigate("/")}>
                             <Box component='img'

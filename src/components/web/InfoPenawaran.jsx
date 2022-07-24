@@ -17,11 +17,28 @@ const InfoPenawaran = () => {
   const isMobile = useMediaQuery("(max-width:425px)");
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
+
   // console.log(state?.transaction.product_id)
 
   const transactions = useSelector((state) => state.transaction.sellerTransaction);
-  const detail = transactions?.data  && transactions.data.find(x=> x.id ===  state?.transaction.id && x.user_id ===  state?.transaction.user_id)
+  const detail = (
+    transactions && transactions?.data
+    ?
+      transactions.data.find(x=> x.id === state?.transaction.id && x.user_id ===  state?.transaction.user_id)
+    : (
+      transactions && transactions?.post
+      ?
+        (
+          (transactions.post.id === state?.transaction.id && transactions.post.User.id === state?.transaction.User.id) || (transactions.post.id === state?.transaction.id && transactions.post.User.id === state?.transaction.user_id)
+          ?
+            transactions.post
+          :
+          null
+        )
+      :
+        null
+    )
+  )
   // const detail = transactions?.post  && transactions.post.find(x=> x.id ===  state?.id && x.user_id ===  state?.transaction.user_id)
   // console.log(transactions)
   // console.log(detail)
@@ -37,8 +54,13 @@ const InfoPenawaran = () => {
     setTerima(detail?.transaction_status)
   }, [detail])
 
+  console.log(`Transaction : ${JSON.stringify(transactions)}`)
+  console.log(`Detail : ${JSON.stringify(detail)}`)
+  console.log(`State : ${JSON.stringify(state)}`)
+
   return (
     <>
+    { typeof transactions != "undefined" ? (
       <Box
         display="flex"
         flexDirection={"column"}
@@ -115,8 +137,8 @@ const InfoPenawaran = () => {
             </Box>
           </Box>
         </Box>
-        
-        { !isMobile && 
+
+        { !isMobile &&
         <Box display={{xs: "none", md: "block"}}>
             {terima === "waiting" ?
               <ModalproductMatch open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={transactions?.post?.product} transaction={detail}/> :
@@ -128,12 +150,12 @@ const InfoPenawaran = () => {
             }
         </Box>
         }
-        { isMobile && 
+        { isMobile &&
           <Box display={{xs: "block", md: "none"}}>
               {terima === "waiting"  ?
                 <DrawerProductMatch open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/> :
                 terima === "accepted" ?
-                <DrawerStatus open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/> : 
+                <DrawerStatus open={openModal} setOpen={setOpenModal} setStatus={setTerima} product={detail?.product} transaction={detail}/> :
                 <Typography variant="caption" color={"GrayText"} mb={1}>
                   Transaksi {terima === "rejected" ? "ditolak" : "diterima"}
                 </Typography>
@@ -141,6 +163,7 @@ const InfoPenawaran = () => {
           </Box>
         }
       </Box>
+    ) : null }
     </>
   );
 };
