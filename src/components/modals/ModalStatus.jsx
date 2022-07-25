@@ -22,6 +22,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Disabledbutton from "../global/Disabledbutton";
 import { updateTransaction } from "../../redux/transaction";
 import { updateProduct } from "../../redux/product";
+import { CreateNotif } from "../../redux/notif";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -90,13 +91,21 @@ const ModalStatus = ({ setStatus,product,transaction,setOpen,open }) => {
       id : transaction.id,
       transactionStatus : transactionStatus
     }))
-    if(transactionStatus === "sold")
-    dispatch(updateProduct({
-      id: transaction.product_id,
-      data: {
-        productStatus : "sold"
-      }
-    }))
+    if(transactionStatus === "sold") {
+      dispatch(updateProduct({
+        id: transaction.product_id,
+        data: {
+          productStatus : "sold"
+        }
+      }))
+      dispatch(CreateNotif({
+        sellerId: transaction.Product.User.id,
+        buyerId: transaction.user_id || transaction.User.id,
+        productId: transaction.product_id,
+        transactionId: transaction.id,
+        message: "Terjual"
+      }));
+    }
   }
 
   return (

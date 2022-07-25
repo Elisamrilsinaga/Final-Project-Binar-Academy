@@ -1,11 +1,24 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import ContainersBox from '../global/ContainersBox'
+import { useSelector } from 'react-redux'
 
 const ModalNotifikasi = ({ message }) => {
-    console.log(message)
     const navigate = useNavigate()
+    const {state} = useLocation()
+    const profile = useSelector((state) => state.profile.profile.data)
+
+    if (profile && profile.user_image !== null) {
+        // Seller
+        message = message.filter(x => x.seller_id === profile.id)
+    } else if(profile && profile.user_image == null) {
+        // Buyer
+        message = message.filter(x => x.buyer_id === profile.id)
+    }
+
+    console.log(message)
+
     return (
         <Box position={'absolute'} zIndex='100' top='3.5rem' right='9.5rem'>
             {message?.length > 0 && (
@@ -13,11 +26,12 @@ const ModalNotifikasi = ({ message }) => {
                     <>
                     {
                         message?.map((notif) => (
-                            <Box display={"flex"} mt={2} borderBottom="1px solid #E5E5E5" onClick={()=>navigate("/penawaran",{ state:{transaction: {...notif.User_Transaction, id:notif.id, product_id: notif.Product.id, user_id : notif.User.id}} })}>
+                            <Box display={"flex"} mt={2} borderBottom="1px solid #E5E5E5" onClick={()=>navigate("/penawaran",{ state:{transaction: {...notif.User_Transaction, id:notif.User_Transaction.id, product_id: notif.product_id, user_id : notif.buyer_id}} })}>
                             <Box
                                 component={"img"}
                                 src={
-                                    notif.Product.Image_Products[0].link
+                                    // notif.Product.Image_Products[0].link
+                                    notif.User_Transaction.Product.Image_Products[0].link
                                 }
                                 sx={{
                                     width: "4rem",
@@ -38,10 +52,10 @@ const ModalNotifikasi = ({ message }) => {
                                         </Typography> */}
                                     </Box>
                                     <Typography variant="subtitle1" mb={1} fontSize={'.7rem'}>
-                                        {notif.Product.product_name}
+                                        {notif.User_Transaction.Product.product_name}
                                     </Typography>
                                     <Typography variant="subtitle1" mb={1} fontSize={'.7rem'}>
-                                        Ditawar Rp {notif.price_negotiate}
+                                        Ditawar Rp {notif.User_Transaction.price_negotiate}
                                     </Typography>
                                 </Box>
                             </Box>

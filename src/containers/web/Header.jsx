@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Link, Button, useMediaQuery } from "@mui/material"
 import SearchField from "../../components/web/SearchField"
 import ListIcon from '@mui/icons-material/List';
@@ -14,10 +14,10 @@ import ButtonBack from "../../components/buttons/ButtonBack";
 import { GetAllNotif } from "../../redux/notif";
 import { useDispatch, useSelector } from "react-redux";
 
-
 const Header = ({ active, title, }) => {
     const isMobile = useMediaQuery("(max-width:600px)");
     let navigate = useNavigate();
+    const {state} = useLocation()
     const islogin = localStorage.getItem("token")
     const [open, setOpen] = React.useState(false);
     const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
@@ -25,11 +25,20 @@ const Header = ({ active, title, }) => {
         isNotificationOpen ? setIsNotificationOpen(false) : setIsNotificationOpen(true)
     }
     const dispatch = useDispatch()
-    const notifs = useSelector((state) => state.notif.notifs.data);
-    // console.log(notifs)
+    let notifs = useSelector((state) => state.notif.notifs)
+    const profile = useSelector((state) => state.profile.profile.data)
+
     useEffect(() => {
         dispatch(GetAllNotif());
     }, [dispatch]);
+
+    if (profile && profile.user_image !== null) {
+        // Seller
+        notifs = notifs.filter(x => x.seller_id === profile.id)
+    } else if(profile && profile.user_image == null) {
+        // Buyer
+        notifs = notifs.filter(x => x.buyer_id === profile.id)
+    }
 
     return (
         <>

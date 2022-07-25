@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductItem } from "../../redux/product";
 import { useParams } from "react-router-dom";
 import { createTransaction } from "../../redux/transaction";
+import { CreateNotif } from "../../redux/notif";
+import apisecondhand from "../../redux/apis/apisecondhand";
 
 const style = {
   position: "absolute",
@@ -26,9 +28,10 @@ const ModalTawar = ({ setModal, setSubmit, detail }) => {
   const transactions = useSelector((state) => state.transaction.transaction);
 
   console.log(transactions)
+  console.log(useSelector((state) => console.log(state)))
 
   // send notif to seller (buat ngirim dengan socket)
-  const handelSubmit = () => {
+  const handelSubmit = async () => {
     // const handelSubmit = async() => {
     // if (currentMessage !== "") {
     //   const messageData = {
@@ -41,12 +44,25 @@ const ModalTawar = ({ setModal, setSubmit, detail }) => {
     //       new Date(Date.now()).getMinutes(),
     //   };
 
-    //   await socket.emit("send_notif", messageData); //emit untuk mengirim 
+    //   await socket.emit("send_notif", messageData); //emit untuk mengirim
     //   setMessageList((list) => [...list, messageData]);
     //   setCurrentMessage("");
     // }
-
-    dispatch(createTransaction({ productId: detail.data.id, priceNegotiate: price }));
+    const response = await apisecondhand.post("/transaction", { productId: detail.data.id, priceNegotiate: price }, {
+      headers: {
+        accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    let transactionID = response.data.upload.id
+    let profileID = response.data.upload.buyerId
+    dispatch(CreateNotif({
+      sellerId: detail.data.user_id,
+      buyerId: profileID,
+      productId: detail.data.id,
+      transactionId: transactionID,
+      message: "Ditawar Rp " + price
+    }));
     setSubmit(true);
     setModal(false);
   };

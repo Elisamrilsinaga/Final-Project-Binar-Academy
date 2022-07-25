@@ -56,6 +56,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 const ModalproductMatch = ({ setStatus,product,transaction,setOpen,open }) => {
+  // console.log(transaction)
   const dispatch = useDispatch();
 
   const handleTolak = () => {
@@ -64,12 +65,12 @@ const ModalproductMatch = ({ setStatus,product,transaction,setOpen,open }) => {
       transactionStatus: "rejected"
     }))
     let data = {
-      receiver: transaction.user_id,
+      sellerId: transaction.seller_id,
+      buyerId: transaction.user_id || transaction.User.id,
       productId: transaction.product_id,
       transactionId: transaction.id,
-      message: "Penawaran ditolak"
+      message: "Penawaran Ditolak"
     }
-    console.log(data)
     dispatch(CreateNotif(data));
     setStatus("rejected");
     setOpen(false);
@@ -83,10 +84,11 @@ const ModalproductMatch = ({ setStatus,product,transaction,setOpen,open }) => {
       transactionStatus: "accepted"
     }))
     let data = {
-      receiver: transaction.user_id,
+      sellerId: transaction.seller_id,
+      buyerId: transaction.user_id || transaction.User.id,
       productId: transaction.product_id,
       transactionId: transaction.id,
-      message: "Penawaran diterima"
+      message: "Berhasil Ditawar Rp " + transaction?.price_negotiate
     }
     console.log(data)
     dispatch(CreateNotif(data));

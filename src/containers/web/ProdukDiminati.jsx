@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Typography, Link, Box } from "@mui/material";
 import apisecondhand from "../../redux/apis/apisecondhand";
+import { sellerTransaction } from "../../redux/transaction";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProdukDiminati = ({ productrans }) => {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {state} = useLocation();
 
   const [detail,setDetail] = useState({});
   useEffect(() => {
@@ -17,7 +21,6 @@ const ProdukDiminati = ({ productrans }) => {
       setDetail(response.data?.data)
     })()
   }, [productrans]);
-  console.log(detail)
 
   return (
     <Box

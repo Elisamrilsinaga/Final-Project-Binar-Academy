@@ -3,14 +3,14 @@ import apisecondhand from './apis/apisecondhand';
 
 export const GetNotif = createAsyncThunk(
     'notif/GetNotif',
-    async (id) => {
-        const res = await apisecondhand.get(`/transaction/${id}`, {
+    async (data) => {
+        const res = await apisecondhand.post(`/notif`, data, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
-        
+
         return res.data;
     }
 );
@@ -18,7 +18,7 @@ export const GetNotif = createAsyncThunk(
 export const GetAllNotif = createAsyncThunk(
     'notif/GetAllNotif',
     async () => {
-        const res = await apisecondhand.get(`/transaction`, {
+        const res = await apisecondhand.get(`/notifs`, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -31,9 +31,9 @@ export const GetAllNotif = createAsyncThunk(
 
 export const CreateNotif = createAsyncThunk(
     'notif/CreateNotif',
-    async (data ) => {
-        
-        const res = await apisecondhand.post('/transaction', data, {
+    async (data) => {
+
+        const res = await apisecondhand.post('/notif', data, {
             headers: {
                 'accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -72,7 +72,7 @@ const notifSlice = createSlice({
             return { ...state, loading: true }
         },
         [GetAllNotif.fulfilled]: (state, action) => {
-            return { ...state, loading: false, notifs: action.payload }
+            return { ...state, loading: false, notifs: action.payload.data }
         },
         [GetAllNotif.rejected]: (state, action) => {
             return { ...state, loading: false, error: action.payload }

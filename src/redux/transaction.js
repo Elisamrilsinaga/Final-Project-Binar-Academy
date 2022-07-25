@@ -43,7 +43,7 @@ export const deleteTransaction = createAsyncThunk(
 export const updateTransaction = createAsyncThunk(
   "transaction/updateTransaction",
   async (data) => {
-    const response = await apisecondhand.post(`/confirm`,data, {
+    const response = await apisecondhand.put(`/confirm`,data, {
       headers: {
         accept: "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -152,7 +152,7 @@ const TransactionSlice = createSlice({
     [deleteTransaction.rejected]: (state, action) => {
       return { ...state, loading: false, error: action.error };
     },
-    
+
   },
 });
 

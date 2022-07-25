@@ -21,46 +21,45 @@ const InfoPenawaran = () => {
   // console.log(state?.transaction.product_id)
 
   const transactions = useSelector((state) => state.transaction.sellerTransaction);
-  const detail = (
-    transactions && transactions?.data
-    ?
-      transactions.data.find(x=> x.id === state?.transaction.id && x.user_id ===  state?.transaction.user_id)
-    : (
-      transactions && transactions?.post
-      ?
-        (
-          (transactions.post.id === state?.transaction.id && transactions.post.User.id === state?.transaction.User.id) || (transactions.post.id === state?.transaction.id && transactions.post.User.id === state?.transaction.user_id)
-          ?
-            transactions.post
-          :
-          null
-        )
-      :
-        null
-    )
-  )
-  // const detail = transactions?.post  && transactions.post.find(x=> x.id ===  state?.id && x.user_id ===  state?.transaction.user_id)
-  // console.log(transactions)
-  // console.log(detail)
   const [terima, setTerima] = React.useState(false);
-  // console.log(detail)
 
   useEffect(() => {
     dispatch(sellerTransaction({id:state?.transaction.id}));
   }, [dispatch, state, openModal]);
+
+  console.log(`Transaction : ${JSON.stringify(transactions, null, '\t')}`)
+  console.log(`State : ${JSON.stringify(state, null, '\t')}`)
+
+  const detail = (
+    transactions?.data
+     ? transactions.data.find(x=> x.id ===  state?.transaction.id && x.user_id ===  state?.transaction.user_id)
+     : (
+      transactions?.post
+      ?
+      (
+        transactions.post.id === state?.transaction.id && transactions.post.User.id === state?.transaction.user_id
+        ? transactions.post
+        : (
+          transactions.post.id === state?.transaction.id && transactions.post.User.id === state?.transaction.User.id
+          ? transactions.post
+          : null
+        )
+      )
+      : null
+    )
+  )
+
+  console.log(`Detail : ${JSON.stringify(detail, null, '\t')}`)
 
   useEffect(()=> {
     if(!state) navigate("/daftar-jual")
     setTerima(detail?.transaction_status)
   }, [detail])
 
-  console.log(`Transaction : ${JSON.stringify(transactions)}`)
-  console.log(`Detail : ${JSON.stringify(detail)}`)
-  console.log(`State : ${JSON.stringify(state)}`)
+
 
   return (
     <>
-    { typeof transactions != "undefined" ? (
       <Box
         display="flex"
         flexDirection={"column"}
@@ -163,7 +162,6 @@ const InfoPenawaran = () => {
           </Box>
         }
       </Box>
-    ) : null }
     </>
   );
 };
